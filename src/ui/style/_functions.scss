@@ -1,0 +1,22 @@
+@use 'sass:math';
+
+:root {
+  --default-font-size: 16px;
+}
+
+@media screen and (max-width: 1300px) {
+  :root {
+    --default-font-size: 14px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  :root {
+    --default-font-size: 12px;
+  }
+}
+
+@function rem($size) {
+  $remSize: math.div($size, 16px);
+  @return #{$remSize}rem;
+}
