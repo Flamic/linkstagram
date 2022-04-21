@@ -1,0 +1,70 @@
+@use '~/src/ui/style/vars' as *;
+
+label {
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 20px;
+  color: $dark-gray;
+
+  .wrapper {
+    position: relative;
+
+    input {
+      width: 100%;
+      font-weight: 500;
+      font-size: 16px;
+      line-height: 20px;
+      color: $black;
+      border: 1px solid $gray;
+      border-radius: 12px;
+      margin: 2px 0;
+      padding: 14px;
+      outline: none;
+
+      &.withIcon {
+        padding-right: 46px;
+      }
+
+      &:focus {
+        border-color: $dark-gray;
+      }
+
+      &:disabled {
+        color: $gray;
+        background-color: $light-gray;
+        border-color: $gray;
+      }
+
+      &::placeholder {
+        font-weight: 400;
+        color: $gray;
+      }
+    }
+
+    .passIcon,
+    .errorIcon {
+      position: absolute;
+      top: 50%;
+      right: 16px;
+      transform: translateY(-50%);
+    }
+
+    .passIcon {
+      circle {
+        fill: $green;
+      }
+    }
+
+    .errorIcon {
+      circle {
+        fill: $red;
+      }
+    }
+  }
+
+  .error {
+    font-size: 12px;
+    line-height: 20px;
+    color: $red;
+  }
+}

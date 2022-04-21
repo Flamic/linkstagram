@@ -1,0 +1,76 @@
+@use '~/src/ui/style/functions' as *;
+@use '~/src/ui/style/vars' as *;
+
+.button {
+  width: 100%;
+  padding: 10px 8px;
+  border: none;
+  border-radius: 12px;
+  outline: none;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 20px;
+  transition: $default-transition;
+
+  &.primary {
+    color: $white;
+    background-color: $blue;
+    border-color: $gray;
+  }
+
+  &.secondary {
+    color: $black;
+    background-color: $white;
+    border-color: $gray;
+  }
+
+  &.ghost {
+    color: $dark-gray;
+    background-color: $white;
+    border-color: $gray;
+  }
+
+  &.alert {
+    color: $red;
+    background-color: $white;
+    border-color: $red;
+  }
+
+  &.dark {
+    color: $light-gray;
+    background-color: $black;
+    border-color: $gray;
+  }
+
+  &.big {
+    padding-top: 14px;
+    padding-bottom: 14px;
+  }
+
+  &.small {
+    font-size: 12px;
+    font-weight: 400;
+  }
+
+  &.border {
+    border-width: 1px;
+    border-style: solid;
+  }
+
+  &.shadow {
+    box-shadow: $default-shadow;
+  }
+
+  &:not(:disabled) {
+    &:hover,
+    &:focus {
+      box-shadow: $selection-shadow;
+    }
+  }
+
+  &:disabled {
+    color: $white;
+    background-color: $gray;
+    border-color: $gray;
+  }
+}
