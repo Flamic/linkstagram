@@ -1,3 +1,6 @@
+import cn from 'classnames'
+import { RefObject } from 'react'
+
 import styles from './styles.module.scss'
 
 interface DropdownOption {
@@ -6,14 +9,28 @@ interface DropdownOption {
 }
 
 interface Props {
+  className?: string
+  dropdownRef?: RefObject<HTMLDivElement>
   onChange: (arg: string) => void
   options: DropdownOption[]
   visible?: boolean
 }
 
-const DropdownList: React.FC<Props> = ({ onChange, options, visible }) => {
+export const toDropdownOptions = (options: string[]) =>
+  options.map((option) => ({
+    caption: option,
+    id: option,
+  }))
+
+const DropdownList: React.FC<Props> = ({
+  className,
+  dropdownRef,
+  onChange,
+  options,
+  visible,
+}) => {
   return visible ? (
-    <div className={styles.box}>
+    <div className={cn(styles.box, className)} ref={dropdownRef}>
       {options.map((option) => (
         <button
           key={option.id}
