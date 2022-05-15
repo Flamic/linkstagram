@@ -7,12 +7,14 @@ import styles from './styles.module.scss'
 
 interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
   error?: string
+  inputClassName?: string
   label?: string
   showIndicator?: boolean
 }
 
 const TextInput: React.FC<Props> = ({
   className,
+  inputClassName,
   id,
   type = 'text',
   label,
@@ -21,24 +23,26 @@ const TextInput: React.FC<Props> = ({
   ...props
 }) => {
   return (
-    <label htmlFor={id}>
-      {label}
-      <div className={styles.wrapper}>
-        <input
-          id={id}
-          type={type}
-          className={cn({ [styles.withIcon]: showIndicator }, className)}
-          {...props}
-        />
-        {showIndicator &&
-          (error ? (
-            <ErrorIcon className={styles.errorIcon} />
-          ) : (
-            <PassIcon className={styles.passIcon} />
-          ))}
-      </div>
-      {error && <div className={styles.error}>{error}</div>}
-    </label>
+    <div className={className}>
+      <label htmlFor={id}>
+        {label}
+        <div className={styles.wrapper}>
+          <input
+            id={id}
+            type={type}
+            className={cn({ [styles.withIcon]: showIndicator }, inputClassName)}
+            {...props}
+          />
+          {showIndicator &&
+            (error ? (
+              <ErrorIcon className={styles.errorIcon} />
+            ) : (
+              <PassIcon className={styles.passIcon} />
+            ))}
+        </div>
+        {error && <div className={styles.error}>{error}</div>}
+      </label>
+    </div>
   )
 }
 

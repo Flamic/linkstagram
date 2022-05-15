@@ -11,14 +11,15 @@ label {
 
     input {
       width: 100%;
+      margin: 2px 0;
+      padding: 14px;
+      
       font-weight: 500;
       font-size: 16px;
       line-height: 20px;
       color: $black;
       border: 1px solid $gray;
       border-radius: 12px;
-      margin: 2px 0;
-      padding: 14px;
       outline: none;
 
       &.withIcon {
@@ -49,16 +50,12 @@ label {
       transform: translateY(-50%);
     }
 
-    .passIcon {
-      circle {
-        fill: $green;
-      }
+    .passIcon circle {
+      fill: $green;
     }
 
-    .errorIcon {
-      circle {
-        fill: $red;
-      }
+    .errorIcon circle {
+      fill: $red;
     }
   }
 
