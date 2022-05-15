@@ -7,13 +7,17 @@ export interface SignUpUser extends AuthUser {
   username: string
 }
 
-export interface UserProfile {
-  description: string
-  firstName: string
+export interface Profile {
+  description: string | null
+  firstName: string | null
   followers: number
   following: number
-  jobTitle: string
-  lastName: string
-  profilePhotoUrl: string
+  jobTitle: string | null
+  lastName: string | null
+  profilePhotoUrl: string | null
   username: string
+}
+
+export interface Account extends Profile {
+  email: string
 }

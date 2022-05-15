@@ -1,5 +1,5 @@
 import { PhotoAttribute, Image } from './image'
-import { UserProfile } from './user'
+import { Profile } from './user'
 
 export interface NewPost {
   description: string
@@ -7,7 +7,7 @@ export interface NewPost {
 }
 
 export interface Post {
-  author: UserProfile
+  author: Profile
   commentsCount: number
   createdAt: string
   description: string
