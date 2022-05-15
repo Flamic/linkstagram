@@ -20,3 +20,8 @@
   $remSize: math.div($size, 16px);
   @return #{$remSize}rem;
 }
+
+@function vw($size) {
+  $relSize: math.div($size, 1920px) * 100;
+  @return #{$relSize}vw;
+}
