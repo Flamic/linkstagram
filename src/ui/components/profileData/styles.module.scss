@@ -1,0 +1,60 @@
+@use '~/src/ui/style/vars' as *;
+@use '~/src/ui/style/functions' as *;
+
+.box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 17px;
+  max-width: 305px;
+
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 20px;
+  text-align: center;
+  color: $black;
+
+  .avatarRow {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+
+    .countBox {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+
+      .value {
+        font-weight: 600;
+      }
+      .text {
+        color: $gray;
+      }
+    }
+  }
+
+  .descriptionRow {
+    font-size: 12px;
+    color: $dark-gray;
+  }
+
+  .buttonRow {
+    display: flex;
+    gap: 12px;
+
+    @media screen and (max-width: 475px) {
+      width: 100%;
+
+      .button {
+        width: 100%;
+        font-size: 16px;
+      }
+    }
+  }
+
+  .splitter {
+    color: $dark-gray;
+    margin: 0 8px;
+  }
+}
