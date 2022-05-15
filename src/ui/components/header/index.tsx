@@ -13,11 +13,11 @@ import styles from './styles.module.scss'
 const languages = ['EN', 'UA', 'PL', 'RU']
 
 interface Props {
-  backArrow?: boolean
   mode?: 'avatar' | 'home' | 'logOut'
+  onBack?(): void
 }
 
-const Header: React.FC<Props> = ({ backArrow, mode }) => {
+const Header: React.FC<Props> = ({ onBack, mode }) => {
   const navigate = useNavigate()
   const [showLangList, setShowLangList] = useState(false)
   const [selectedLang, setSelectedLang] = useState(languages[0])
@@ -27,8 +27,10 @@ const Header: React.FC<Props> = ({ backArrow, mode }) => {
 
   return (
     <header className={styles.header}>
-      {backArrow ? (
-        <i className={cn('icon-arrow', styles.iconArrow)} />
+      {onBack ? (
+        <button type="button" onClick={onBack} className={styles.arrowButton}>
+          <i className={cn('icon-arrow', styles.iconArrow)} />
+        </button>
       ) : (
         <Link to="/" className={styles.logo}>
           Linkstagram

@@ -32,11 +32,23 @@
     cursor: pointer;
   }
 
-  .iconArrow {
+  .arrowButton {
     margin-right: auto;
     font-size: 32px;
     color: $black;
+    background-color: transparent;
+    border: none;
+    outline: none;
     transform: scaleX(-100%);
+    cursor: pointer;
+    
+    .iconArrow {
+      transition: $default-transition;
+    }
+
+    &:hover .iconArrow {
+      color: $dark-gray;
+    }
   }
 
   .dropdownWrapper {
