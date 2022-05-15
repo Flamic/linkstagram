@@ -1,6 +1,6 @@
 import cn from 'classnames'
 import { useRef, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 import useOutsideClick from 'ui/hooks/useOutsideClick'
 
@@ -30,7 +30,9 @@ const Header: React.FC<Props> = ({ backArrow, mode }) => {
       {backArrow ? (
         <i className={cn('icon-arrow', styles.iconArrow)} />
       ) : (
-        <div className={styles.logo}>Linkstagram</div>
+        <Link to="/" className={styles.logo}>
+          Linkstagram
+        </Link>
       )}
 
       <div className={styles.dropdownWrapper}>
