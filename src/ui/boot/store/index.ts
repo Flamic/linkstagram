@@ -1,10 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit'
 
-import { rootReducer } from '../../core/store'
+import api from '../../../core/store'
 
 export const setupStore = () =>
   configureStore({
-    reducer: rootReducer,
+    reducer: { [api.reducerPath]: api.reducer },
   })
 
 export default setupStore
