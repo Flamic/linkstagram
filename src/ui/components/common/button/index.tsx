@@ -6,7 +6,7 @@ import styles from './styles.module.scss'
 interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   border?: 'border' | 'shadow'
   children: ReactNode
-  size?: 'big' | 'small'
+  size?: 'big' | 'medium' | 'small'
   variant: 'primary' | 'secondary' | 'ghost' | 'alert' | 'dark'
 }
 
@@ -15,7 +15,7 @@ const Button: React.FC<Props> = ({
   className,
   children,
   type = 'button',
-  size,
+  size = 'medium',
   variant = 'primary',
   ...props
 }) => {
