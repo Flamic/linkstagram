@@ -1,0 +1,28 @@
+@use '~/src/ui/style/functions' as *;
+
+.view {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+
+  @include phone-media {
+    flex-direction: column;
+  }
+
+  img {
+    height: vh(900px);
+    max-height: 900px;
+    object-fit: cover;
+    overflow: visible;
+
+    @media screen and (max-width: 1300px) {
+      height: auto;
+      width: 50%;
+    }
+
+    @media screen and (max-width: 768px) {
+      display: none;
+    }
+  }
+}
