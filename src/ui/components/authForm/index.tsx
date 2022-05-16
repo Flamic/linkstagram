@@ -83,7 +83,7 @@ const AuthForm: React.FC<Props> = ({ signUp }) => {
           size="big"
           className={styles.submitButton}
         >
-          Sign Up
+          {signUp ? 'Sign up' : 'Log in'}
         </Button>
         <div className={styles.subLine}>
           {signUp ? (
@@ -97,7 +97,7 @@ const AuthForm: React.FC<Props> = ({ signUp }) => {
             <>
               <span>Don&apos;t have an account?</span>
               <Link to="/signUp" className={styles.link}>
-                {signUp ? 'Sign up' : 'Log in'}
+                Sign Up
               </Link>
             </>
           )}
