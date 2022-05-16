@@ -1,0 +1,28 @@
+@use '~/src/ui/style/vars' as *;
+@use '~/src/ui/style/functions' as *;
+
+.box {
+  position: relative;
+  display: flex;
+  width: 100%;
+
+  :global(.slick-slider) {
+    width: 100% !important;
+  }
+
+  :global(.slick-track) {
+    display: flex;
+    gap: 24px;
+  }
+
+  .endFilter {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+    width: 150px;
+    margin-right: -1;
+    background: linear-gradient(90deg, #fafbfc00 0%, #FAFBFC 100%);
+    pointer-events: none;
+  }
+}
