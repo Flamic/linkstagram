@@ -1,6 +1,10 @@
 import { useFormik } from 'formik'
 import { Link } from 'react-router-dom'
+import { toast } from 'react-toastify'
 import * as Yup from 'yup'
+
+import api from 'core/store'
+import { SignUpUser } from 'core/types/user'
 
 import Button from '../common/button'
 import TextInput from '../common/textInput'
@@ -12,14 +16,18 @@ interface Props {
 }
 
 const AuthForm: React.FC<Props> = ({ signUp }) => {
+  const [login, { isLoading: isLoginLoading }] = api.useLoginMutation()
+  const [createAccount, { isLoading: isSignUpLoading }] =
+    api.useCreateAccountMutation()
+
   const formik = useFormik({
     initialValues: {
-      email: '',
+      login: '',
       ...(signUp && { username: '' }),
       password: '',
     },
     validationSchema: Yup.object({
-      email: Yup.string().email('Invalid email address').required('Required'),
+      login: Yup.string().email('Invalid email address').required('Required'),
       ...(signUp && {
         username: Yup.string()
           .min(2, 'Must be 2 characters or more')
@@ -32,7 +40,31 @@ const AuthForm: React.FC<Props> = ({ signUp }) => {
         .required('Required'),
     }),
     onSubmit: (values) => {
-      alert(JSON.stringify(values, null, 2))
+      const request = signUp
+        ? createAccount(values as SignUpUser)
+        : login(values)
+
+      request.unwrap().catch((error: { data: unknown }) => {
+        console.error(error)
+
+        if (
+          error.data &&
+          typeof error.data === 'object' &&
+          'field-error' in error.data
+        ) {
+          const errorFields = (error.data as { 'field-error': Array<string> })[
+            'field-error'
+          ]
+
+          const errorMessage = errorFields && errorFields[1]
+
+          toast.error(
+            errorMessage
+              ? errorMessage.charAt(0).toUpperCase() + errorMessage.slice(1)
+              : 'Cannot create account',
+          )
+        }
+      })
     },
   })
 
@@ -49,9 +81,9 @@ const AuthForm: React.FC<Props> = ({ signUp }) => {
           id="email"
           label="Email"
           placeholder="example@mail.com"
-          error={getError('email')}
-          showIndicator={formik.touched.email}
-          {...formik.getFieldProps('email')}
+          error={getError('login')}
+          showIndicator={formik.touched.login}
+          {...formik.getFieldProps('login')}
         />
         {signUp && (
           <TextInput
@@ -82,6 +114,7 @@ const AuthForm: React.FC<Props> = ({ signUp }) => {
           variant="primary"
           size="big"
           className={styles.submitButton}
+          disabled={signUp ? isSignUpLoading : isLoginLoading}
         >
           {signUp ? 'Sign up' : 'Log in'}
         </Button>
