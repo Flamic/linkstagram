@@ -23,7 +23,7 @@
     width: 32px;
     height: 32px;
 
-    img {
+    .img {
       border-radius: 10px;
     }
   }
@@ -32,13 +32,13 @@
     width: 40px;
     height: 40px;
 
-    img {
+    .img {
       border-radius: 12px;
     }
 
     &.bordered {
       @include frame-image('medium');
-      img {
+      .img {
         border-radius: 8px;
       }
     }
@@ -48,13 +48,13 @@
     width: 64px;
     height: 64px;
 
-    img {
+    .img {
       border-radius: 16px;
     }
 
     &.bordered {
       @include frame-image('big');
-      img {
+      .img {
         border-radius: 12px;
       }
     }
@@ -64,13 +64,13 @@
     width: 88px;
     height: 88px;
 
-    img {
+    .img {
       border-radius: 24px;
     }
 
     &.bordered {
       @include frame-image('large');
-      img {
+      .img {
         border-radius: 20px;
       }
     }
@@ -81,17 +81,21 @@
     background-size: contain;
     background-repeat: no-repeat;
 
-    img {
+    .img {
       border: none;
       box-shadow: $default-shadow;
     }
   }
 
-  img {
+  .img {
     width: 100%;
     height: 100%;
     border: 1px solid $gray;
     object-fit: cover;
+
+    &.invisible {
+      display: none;
+    }
   }
 
   .followIcon {
@@ -99,5 +103,19 @@
     bottom: 0;
     left: 50%;
     transform: translate(-50%, 30%);
+  }
+
+  .userIconBox {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background-color: $gray;
+
+    .userIcon {
+      fill: $white;
+      width: 65%;
+      height: 65%;
+    }
   }
 }
