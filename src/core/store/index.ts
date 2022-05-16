@@ -14,7 +14,7 @@ const api = createApi({
       const token = getToken()
 
       if (token) {
-        headers.set('authorization', `Bearer ${token}`)
+        headers.set('Authorization', `Bearer ${token}`)
       }
 
       return headers
@@ -24,10 +24,16 @@ const api = createApi({
 
   endpoints: (build) => ({
     // Login
-    login: build.query<void, AuthUser>({
-      query: () => 'login',
+    login: build.mutation<void, AuthUser>({
+      query(body) {
+        return {
+          url: 'login',
+          method: 'POST',
+          body,
+        }
+      },
       transformResponse: (_value, meta, _arg) => {
-        const token = meta?.response?.headers.get('authorization')
+        const token = meta?.response?.headers.get('Authorization')
 
         if (token) setToken(token)
       },
@@ -41,7 +47,7 @@ const api = createApi({
         }
       },
       transformResponse: (_value, meta, _arg) => {
-        const token = meta?.response?.headers.get('authorization')
+        const token = meta?.response?.headers.get('Authorization')
 
         if (token) setToken(token)
       },
