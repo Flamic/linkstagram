@@ -1,11 +1,10 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
+import { API_LINK } from 'core/constants/links'
 import { getToken, setToken } from 'core/services/auth'
 import { Comment, NewComment } from 'core/types/comment'
 import { Post } from 'core/types/post'
 import { Account, AuthUser, Profile, SignUpUser } from 'core/types/user'
-
-const API_LINK = 'https://linkstagram-api.linkupst.com/'
 
 const api = createApi({
   reducerPath: 'api',
