@@ -43,7 +43,7 @@
     display: flex;
     gap: 12px;
 
-    @media screen and (max-width: 475px) {
+    @include phone-media {
       width: 100%;
 
       .button {

@@ -17,7 +17,7 @@
     margin-right: 16px; 
   }
 
-  @media screen and (max-width: 475px) {
+  @include phone-media {
     padding: 12px 16px;
   }
 

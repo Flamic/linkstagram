@@ -25,3 +25,14 @@
   $relSize: math.div($size, 1920px) * 100;
   @return #{$relSize}vw;
 }
+
+@function vh($size) {
+  $relSize: math.div($size, 1080px) * 100;
+  @return #{$relSize}vh;
+}
+
+@mixin phone-media {
+  @media screen and (max-width: 475px) {
+    @content
+  }
+}
