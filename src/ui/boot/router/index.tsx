@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 
 import { useAuth } from 'core/services/auth'
 import HomePage from 'ui/pages/home'
@@ -12,13 +12,23 @@ const Router: React.FC = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={token ? <HomePage /> : <LogInPage />} />
-        <Route path="/logIn" element={token ? <HomePage /> : <LogInPage />} />
-        <Route path="/signUp" element={token ? <HomePage /> : <SignUpPage />} />
+        <Route
+          path="/"
+          element={token ? <HomePage /> : <Navigate to="/logIn" />}
+        />
+        <Route
+          path="/logIn"
+          element={token ? <Navigate to="/" /> : <LogInPage />}
+        />
+        <Route
+          path="/signUp"
+          element={token ? <Navigate to="/" /> : <SignUpPage />}
+        />
         <Route
           path="/profile"
-          element={token ? <ProfilePage /> : <LogInPage />}
+          element={token ? <ProfilePage /> : <Navigate to="/logIn" />}
         />
+        <Route path="/*" element={<Navigate to="/" />} />
       </Routes>
     </BrowserRouter>
   )
