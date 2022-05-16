@@ -164,7 +164,7 @@ const api = createApi({
     }),
 
     // Account
-    getAccount: build.query<Account, number>({
+    getAccount: build.query<Account, void>({
       query: () => 'account',
       providesTags: ['Account'],
     }),
