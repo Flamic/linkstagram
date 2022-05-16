@@ -1,20 +1,27 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
+import { useAuth } from 'core/services/auth'
+import HomePage from 'ui/pages/home'
 import LogInPage from 'ui/pages/logIn'
+import ProfilePage from 'ui/pages/profile'
 import SignUpPage from 'ui/pages/signUp'
 
-import HomePage from '../../pages/home'
-import ProfilePage from '../../pages/profile'
+const Router: React.FC = () => {
+  const token = useAuth()
 
-const Router: React.FC = () => (
-  <BrowserRouter>
-    <Routes>
-      <Route path="/" element={<HomePage />} />
-      <Route path="/logIn" element={<LogInPage />} />
-      <Route path="/signUp" element={<SignUpPage />} />
-      <Route path="/profile" element={<ProfilePage />} />
-    </Routes>
-  </BrowserRouter>
-)
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={token ? <HomePage /> : <LogInPage />} />
+        <Route path="/logIn" element={token ? <HomePage /> : <LogInPage />} />
+        <Route path="/signUp" element={token ? <HomePage /> : <SignUpPage />} />
+        <Route
+          path="/profile"
+          element={token ? <ProfilePage /> : <LogInPage />}
+        />
+      </Routes>
+    </BrowserRouter>
+  )
+}
 
 export default Router
