@@ -42,7 +42,7 @@ const AuthForm: React.FC<Props> = ({ signUp }) => {
   return (
     <form className={styles.form} onSubmit={formik.handleSubmit}>
       <div className={styles.upperBox}>
-        <h1>Sign {signUp ? 'Up' : 'In'}</h1>
+        <h1>{signUp ? 'Sign Up' : 'Log In'}</h1>
         <TextInput
           className={styles.input}
           type="email"
@@ -97,7 +97,7 @@ const AuthForm: React.FC<Props> = ({ signUp }) => {
             <>
               <span>Don&apos;t have an account?</span>
               <Link to="/signUp" className={styles.link}>
-                Sign Up
+                {signUp ? 'Sign up' : 'Log in'}
               </Link>
             </>
           )}

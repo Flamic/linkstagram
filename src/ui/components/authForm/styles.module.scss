@@ -8,9 +8,15 @@
   width: rem(620px);
   padding: rem(36px) rem(130px);
 
-  @media screen and (max-width: 475px) {
+  @media screen and (max-width: 1000px) {
+    padding-left: 50px;
+    padding-right: 50px;
+  }
+
+  @include phone-media {
     width: 100%;
     height: 100%;
+    flex: 1;
     padding: 48px 16px 32px 16px;
   }
 
@@ -23,7 +29,7 @@
       margin-bottom: rem(48px);
       color: $black;
 
-      @media screen and (max-width: 475px) {
+      @include phone-media {
         font-size: 32px;
         margin-bottom: 32px;
       }
@@ -35,6 +41,13 @@
   }
 
   .lowerBox {
+    display: flex;
+    flex-direction: column;
+
+    @include phone-media {
+      flex-direction: column-reverse;
+    }
+
     .submitButton {
       margin-top: 16px;
       width: 100%;
