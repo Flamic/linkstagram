@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { API_LINK } from 'core/constants/links'
 import { getToken, setToken } from 'core/services/auth'
 import { Comment, NewComment } from 'core/types/comment'
-import { Post } from 'core/types/post'
+import { NewPost, Post } from 'core/types/post'
 import { Account, AuthUser, Profile, SignUpUser } from 'core/types/user'
 import {
   convertObjectKeys,
@@ -106,7 +106,7 @@ const api = createApi({
       query: (id) => `posts/${id}`,
       providesTags: (_result, _error, id) => [{ type: 'Posts', id }],
     }),
-    addPost: build.mutation<Post, Partial<Post>>({
+    addPost: build.mutation<Post, NewPost>({
       query(body) {
         return {
           url: 'posts',
