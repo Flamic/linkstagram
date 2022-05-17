@@ -5,6 +5,11 @@ import { getToken, setToken } from 'core/services/auth'
 import { Comment, NewComment } from 'core/types/comment'
 import { Post } from 'core/types/post'
 import { Account, AuthUser, Profile, SignUpUser } from 'core/types/user'
+import {
+  convertObjectKeys,
+  nameToCamelCase,
+  nameToKebabCase,
+} from 'core/utils/objectConverter'
 
 const api = createApi({
   reducerPath: 'api',
@@ -18,6 +23,29 @@ const api = createApi({
       }
 
       return headers
+    },
+    fetchFn: async (input, init) => {
+      let body = init?.body
+
+      if (
+        typeof body === 'string' &&
+        init?.method &&
+        ['POST', 'PUT', 'PATCH'].includes(init.method)
+      ) {
+        body = JSON.stringify(
+          convertObjectKeys(JSON.parse(body), nameToKebabCase),
+        )
+      }
+
+      const result = await fetch(input, { ...init, body })
+      const data = await result.json()
+      const convertedData = convertObjectKeys(data, nameToCamelCase)
+
+      return new Response(JSON.stringify(convertedData), {
+        headers: result.headers,
+        status: result.status,
+        statusText: result.statusText,
+      })
     },
   }),
   tagTypes: ['Posts', 'UserPosts', 'Comments', 'Account'],
