@@ -14,11 +14,16 @@ import TextInput from '../common/textInput'
 
 import styles from './styles.module.scss'
 
+type EditProfile = Pick<
+  Profile,
+  'username' | 'firstName' | 'lastName' | 'jobTitle' | 'description'
+> & { photo: File | null }
+
 interface Props {
   phone?: boolean
   profile: Profile
   onCancel?(): void
-  onSave?(profile: Partial<Profile>): void
+  onSave?(profile: EditProfile): void
 }
 
 const EditProfileForm: React.FC<Props> = ({
@@ -27,18 +32,11 @@ const EditProfileForm: React.FC<Props> = ({
   onCancel,
   onSave,
 }) => {
-  const formik = useFormik<
-    Pick<
-      Profile,
-      | 'profilePhotoUrl'
-      | 'username'
-      | 'firstName'
-      | 'lastName'
-      | 'jobTitle'
-      | 'description'
-    >
-  >({
-    initialValues: profile,
+  const formik = useFormik<EditProfile>({
+    initialValues: {
+      ...profile,
+      photo: null,
+    },
     validationSchema: Yup.object({
       username: Yup.string()
         .min(2, 'Must be 2 characters or more')
@@ -50,16 +48,19 @@ const EditProfileForm: React.FC<Props> = ({
       description: Yup.string().max(100, 'Must be 100 characters or less'),
     }),
     onSubmit: (values) => {
-      onSave?.(
-        convertObjectValues(values, emptyStringToNull) as Partial<Profile>,
-      )
+      onSave?.(convertObjectValues(values, emptyStringToNull) as EditProfile)
     },
   })
 
   const getError = (key: keyof typeof formik.values) =>
     formik.touched[key] && formik.errors[key] ? formik.errors[key] : undefined
 
-  const avatar = <Avatar onChoose={() => 4} src={profile.profilePhotoUrl} />
+  const avatar = (
+    <Avatar
+      onChoose={(file) => formik.setFieldValue('photo', file)}
+      src={profile.profilePhotoUrl}
+    />
+  )
   const username = (
     <TextInput
       className={styles.listElement}
@@ -156,11 +157,17 @@ const EditProfileForm: React.FC<Props> = ({
           variant="secondary"
           border="border"
           onClick={onCancel}
+          size="big"
           className={styles.button}
         >
           Cancel
         </Button>
-        <Button variant="primary" type="submit" className={styles.button}>
+        <Button
+          variant="primary"
+          type="submit"
+          size="big"
+          className={styles.button}
+        >
           Save
         </Button>
       </div>
