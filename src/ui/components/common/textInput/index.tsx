@@ -5,10 +5,14 @@ import { ReactComponent as PassIcon } from 'assets/images/pass-icon.svg'
 
 import styles from './styles.module.scss'
 
-interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
+type TextInputElement = React.InputHTMLAttributes<HTMLInputElement> &
+  React.TextareaHTMLAttributes<HTMLTextAreaElement>
+
+interface Props extends TextInputElement {
   error?: string
   inputClassName?: string
   label?: string
+  multiline?: boolean
   showIndicator?: boolean
 }
 
@@ -19,18 +23,25 @@ const TextInput: React.FC<Props> = ({
   type = 'text',
   label,
   error,
+  multiline,
   showIndicator,
   ...props
 }) => {
+  const InputElement = multiline ? 'textarea' : 'input'
+
   return (
     <div className={className}>
-      <label htmlFor={id}>
+      <label htmlFor={id} className={styles.label}>
         {label}
         <div className={styles.wrapper}>
-          <input
+          <InputElement
             id={id}
             type={type}
-            className={cn({ [styles.withIcon]: showIndicator }, inputClassName)}
+            className={cn(
+              { [styles.withIcon]: showIndicator },
+              styles.input,
+              inputClassName,
+            )}
             {...props}
           />
           {showIndicator &&
