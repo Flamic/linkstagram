@@ -1,0 +1,59 @@
+@use '~/src/ui/style/vars' as *;
+@use '~/src/ui/style/functions' as *;
+
+.form {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+  gap: 32px;
+
+  .upperBox {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 32px;
+  }
+
+  .listElement {
+    width: 100%;
+  }
+
+  .avatarRow {
+    display: flex;
+    gap: 40px;
+
+    .avatar {
+      align-self: center;
+    }
+
+    .nameInputColumn {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      width: 100%;
+
+      .input {
+        padding-top: 10px;
+        padding-bottom: 10px;
+      }
+    }
+  }
+
+  .button {
+    width: 100%;
+  }
+
+  .buttonRow {
+    display: flex;
+    gap: 12px;
+    margin-top: 16px;
+  }
+
+  .buttonColumn {
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 8px;
+    margin-top: 30px;
+  }
+}
