@@ -1,0 +1,86 @@
+@use '~/src/ui/style/vars' as *;
+@use '~/src/ui/style/functions' as *;
+
+.form {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+  gap: 32px;
+
+  .invisible {
+    display: none;
+  }
+
+  .upperBox {
+    & > :not(:last-child) {
+      margin-bottom: 32px;
+    }
+
+    .imageBox {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 345px;
+      overflow: hidden;
+
+      border-radius: 12px;
+      color: $white;
+      background-color: $gray;
+      font-weight: 500;
+      font-size: 16px;
+
+      &.invert {
+        color: $gray;
+        background-color: $white;
+        border: solid 1px $gray;
+
+        font-weight: 600;
+        font-size: 12px;
+      }
+
+      .defaultImage {
+        position: relative;
+        width: 100%;
+        text-align: center;
+
+        .imageIcon {
+          fill: currentColor;
+        }
+
+        .defaultLabel {
+          position: absolute;
+          top: 130%;
+          left: 50%;
+          transform: translateX(-50%);
+          width: 60%;
+        }
+      }
+
+      .img {
+        height: 100%;
+        width: 100%;
+        object-fit: cover;
+      }
+    }
+  }
+
+  .listElement {
+    width: 100%;
+  }
+
+  .button {
+    width: 100%;
+  }
+
+  .buttonRow {
+    display: flex;
+    gap: 12px;
+  }
+
+  .buttonColumn {
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 8px;
+  }
+}
