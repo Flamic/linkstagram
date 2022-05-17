@@ -82,7 +82,7 @@ const AuthForm: React.FC<Props> = ({ signUp }) => {
           label="Email"
           placeholder="example@mail.com"
           error={getError('login')}
-          showIndicator={formik.touched.login}
+          showIndicator={signUp && formik.touched.login}
           {...formik.getFieldProps('login')}
         />
         {signUp && (
@@ -104,7 +104,7 @@ const AuthForm: React.FC<Props> = ({ signUp }) => {
           label="Password"
           placeholder="Type in..."
           error={getError('password')}
-          showIndicator={formik.touched.password}
+          showIndicator={signUp && formik.touched.password}
           {...formik.getFieldProps('password')}
         />
       </div>
