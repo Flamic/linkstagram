@@ -1,4 +1,5 @@
 import cn from 'classnames'
+import { Link } from 'react-router-dom'
 
 import { Post } from 'core/types/post'
 import { stringifyNumber } from 'core/utils/numberConverter'
@@ -17,7 +18,6 @@ interface Props {
   onLike?(): void
   onRemove?(): void
   onViewPost?(): void
-  onViewProfile?(): void
 }
 
 const PostItemView: React.FC<Props> = ({
@@ -26,7 +26,6 @@ const PostItemView: React.FC<Props> = ({
   onLike,
   onRemove,
   onViewPost,
-  onViewProfile,
 }) => {
   const menuItems = onRemove
     ? ['View', 'Like', 'Comment', 'Remove']
@@ -58,18 +57,20 @@ const PostItemView: React.FC<Props> = ({
   return (
     <section className={styles.box}>
       <div className={styles.userRow}>
-        <Avatar src={post.author.profilePhotoUrl} />
-        <div className={styles.userData}>
-          <div>{getProfileName(post.author)}</div>
-          <div className={styles.createdAt}>
-            {humanizeDistanceToNow(post.createdAt)}
+        <Link to={`/profile/${post.author.username}`} className={styles.link}>
+          <Avatar src={post.author.profilePhotoUrl} />
+          <div className={styles.userData}>
+            <div>{getProfileName(post.author)}</div>
+            <div className={styles.createdAt}>
+              {humanizeDistanceToNow(post.createdAt)}
+            </div>
           </div>
-        </div>
+        </Link>
         <MenuButton items={menuItems} onSelect={onSelectItem} />
       </div>
-      <div className={styles.imgWrapper}>
+      <button type="button" onClick={onViewPost} className={styles.imgWrapper}>
         <img src={post.photos[0].url} alt="Post" className={styles.img} />
-      </div>
+      </button>
       {post.description && <p>{post.description}</p>}
       <div className={styles.bottomRow}>
         <Button
