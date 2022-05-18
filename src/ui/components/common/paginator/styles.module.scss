@@ -1,0 +1,23 @@
+@use '~/src/ui/style/vars' as *;
+
+.box {
+  display: flex;
+
+  .button {
+    display: flex;
+    align-items: center;
+
+    font-size: 16px;
+    font-weight: 600;
+    color: $blue;
+
+    &.rightButton {
+      margin-left: auto;
+    }
+  }
+
+  .chevron {
+    font-size: 40px;
+    font-weight: 700;
+  }
+}
