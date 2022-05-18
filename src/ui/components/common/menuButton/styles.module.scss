@@ -1,0 +1,56 @@
+@use '~/src/ui/style/vars' as *;
+
+.box {
+  position: relative;
+
+  .button {
+    background-color: transparent;
+    outline: none;
+    border: none;
+    font-size: 32px;
+    color: $gray;
+    cursor: pointer;
+    transition: $default-transition;
+
+    &:hover {
+      color: $dark-gray;
+    }
+  }
+
+  .itemBox {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 1;
+
+    min-width: 64px;
+    width: max-content;
+    padding: 12px;
+    background-color: $white;
+    box-shadow: $nav-shadow;
+    border-radius: 12px;
+
+    button {
+      display: block;
+      width: 100%;
+      background-color: transparent;
+      outline: none;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      margin: 4px 0;
+      padding: 4px 6px;
+      font-size: 12px;
+      font-weight: 600;
+      line-height: 20px;
+      text-align: start;
+      color: $black;
+      transition: $default-transition;
+
+      &:hover {
+        background-color: $light-gray;
+        color: $blue;
+      }
+    }
+  }
+}
