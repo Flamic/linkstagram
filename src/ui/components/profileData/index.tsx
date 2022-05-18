@@ -1,5 +1,6 @@
 import { Profile } from 'core/types/user'
 import { stringifyNumber } from 'core/utils/numberConverter'
+import { getProfileName } from 'core/utils/profile'
 
 import Avatar from '../common/avatar'
 import Button from '../common/button'
@@ -35,7 +36,7 @@ const ProfileData: React.FC<Props> = ({ expanded, ownProfile, profile }) => (
       </div>
     </div>
     <div>
-      {`${profile.firstName} ${profile.lastName}`}
+      {getProfileName(profile)}
       <span className={styles.splitter}>-</span>
       {profile.jobTitle}
     </div>
