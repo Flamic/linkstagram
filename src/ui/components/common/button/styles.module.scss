@@ -68,7 +68,7 @@
     box-shadow: $default-shadow;
   }
 
-  &:not(:disabled) {
+  &.hover:not(:disabled) {
     &:hover,
     &:focus {
       box-shadow: $selection-shadow;

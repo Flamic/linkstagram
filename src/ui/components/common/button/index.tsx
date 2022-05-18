@@ -6,6 +6,7 @@ import styles from './styles.module.scss'
 interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   border?: 'border' | 'shadow'
   children: ReactNode
+  hoverEffect?: boolean
   size?: 'big' | 'medium' | 'small'
   variant: 'primary' | 'secondary' | 'ghost' | 'alert' | 'dark'
 }
@@ -14,6 +15,7 @@ const Button: React.FC<Props> = ({
   border,
   className,
   children,
+  hoverEffect = true,
   type = 'button',
   size = 'medium',
   variant = 'primary',
@@ -28,6 +30,7 @@ const Button: React.FC<Props> = ({
         styles[variant],
         size && styles[size],
         border && styles[border],
+        { [styles.hover]: hoverEffect },
         className,
       )}
       {...props}
