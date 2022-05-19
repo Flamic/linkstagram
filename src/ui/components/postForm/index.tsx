@@ -1,8 +1,10 @@
 import cn from 'classnames'
 import { useFormik } from 'formik'
+import { toast } from 'react-toastify'
 import * as Yup from 'yup'
 
 import { ReactComponent as ImageIcon } from 'assets/images/image-icon.svg'
+import { MAX_POST_IMAGES_COUNT } from 'core/constants/limits'
 import { NewPost } from 'core/types/post'
 import {
   convertObjectValues,
@@ -10,6 +12,7 @@ import {
 } from 'core/utils/objectConverter'
 
 import Button from '../common/button'
+import ImageView from '../common/imageView'
 import TextInput from '../common/textInput'
 
 import styles from './styles.module.scss'
@@ -39,7 +42,9 @@ const PostForm: React.FC<Props> = ({ phone, onCancel, onPost }) => {
   const getError = (key: keyof typeof formik.values) =>
     formik.touched[key] && formik.errors[key] ? formik.errors[key] : undefined
 
-  const getFirstFile = () => formik.getFieldProps('photos').value?.[0]
+  const getFiles = () => formik.getFieldProps('photos').value as File[]
+  const filesPresent = () =>
+    Boolean(formik.getFieldProps('photos').value?.length)
 
   return (
     <form className={styles.form} onSubmit={formik.handleSubmit}>
@@ -51,12 +56,12 @@ const PostForm: React.FC<Props> = ({ phone, onCancel, onPost }) => {
                 [styles.invert]: phone,
               })}
             >
-              {getFirstFile() ? (
-                <img
-                  src={URL.createObjectURL(getFirstFile())}
-                  alt="Post"
-                  draggable={false}
-                  className={cn(styles.img)}
+              {filesPresent() ? (
+                <ImageView
+                  images={getFiles().map((file, index) => ({
+                    id: index,
+                    url: URL.createObjectURL(file),
+                  }))}
                 />
               ) : (
                 <div className={cn(styles.defaultImage)}>
@@ -75,10 +80,21 @@ const PostForm: React.FC<Props> = ({ phone, onCancel, onPost }) => {
               accept="image/png, image/jpeg"
               style={{ display: 'none' }}
               multiple
-              onChange={(event) =>
-                event.currentTarget.files?.[0] &&
-                formik.setFieldValue('photos', event.currentTarget.files)
-              }
+              onChange={(event) => {
+                const fileList = event.currentTarget.files
+
+                if (!fileList?.length) return
+
+                if (fileList.length > MAX_POST_IMAGES_COUNT) {
+                  toast.error(
+                    `Exceeded image limit. Maximum count is ${MAX_POST_IMAGES_COUNT}`,
+                  )
+
+                  return
+                }
+
+                formik.setFieldValue('photos', Array.from(fileList))
+              }}
             />
           </label>
         </div>
@@ -116,7 +132,7 @@ const PostForm: React.FC<Props> = ({ phone, onCancel, onPost }) => {
           type="submit"
           size="big"
           className={styles.button}
-          disabled={!getFirstFile()}
+          disabled={!filesPresent()}
         >
           Post
         </Button>
