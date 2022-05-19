@@ -1,14 +1,15 @@
 import AwsS3 from '@uppy/aws-s3'
 import Uppy from '@uppy/core'
 
+import { MAX_IMAGE_SIZE, MAX_POST_IMAGES_COUNT } from 'core/constants/limits'
 import { API_LINK } from 'core/constants/links'
 import { PhotoAttribute } from 'core/types/image'
 
 const initUppy = () => {
   const uppy = new Uppy({
     restrictions: {
-      maxFileSize: 5 * 1024 * 1024, // 5MB
-      maxNumberOfFiles: 10,
+      maxFileSize: MAX_IMAGE_SIZE, // 5MB
+      maxNumberOfFiles: MAX_POST_IMAGES_COUNT,
       allowedFileTypes: ['image/png', 'image/jpg'],
     },
   })
