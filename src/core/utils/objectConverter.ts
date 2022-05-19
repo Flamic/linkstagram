@@ -3,8 +3,8 @@ type UnknownObject = Record<string, unknown> | unknown[]
 export const nameToCamelCase = (str: string) =>
   str.toLowerCase().replace(/[-_]([a-z])/g, (_, group) => group.toUpperCase())
 
-export const nameToKebabCase = (str: string) =>
-  str.replace(/([A-Z])/g, (group) => `-${group.toLowerCase()}`)
+export const nameToSnakeCase = (str: string) =>
+  str.replace(/([A-Z])/g, (group) => `_${group.toLowerCase()}`)
 
 export const emptyStringToNull = (value: unknown) =>
   value === '' ? null : value

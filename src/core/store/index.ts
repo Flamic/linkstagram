@@ -8,7 +8,7 @@ import { Account, AuthUser, Profile, SignUpUser } from 'core/types/user'
 import {
   convertObjectKeys,
   nameToCamelCase,
-  nameToKebabCase,
+  nameToSnakeCase,
 } from 'core/utils/objectConverter'
 
 const api = createApi({
@@ -33,7 +33,7 @@ const api = createApi({
         ['POST', 'PUT', 'PATCH'].includes(init.method)
       ) {
         body = JSON.stringify(
-          convertObjectKeys(JSON.parse(body), nameToKebabCase),
+          convertObjectKeys(JSON.parse(body), nameToSnakeCase),
         )
       }
 
