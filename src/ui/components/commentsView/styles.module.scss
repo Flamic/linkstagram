@@ -1,0 +1,57 @@
+@use '~/src/ui/style/vars' as *;
+@use '~/src/ui/style/functions' as *;
+
+.box {
+  width: 100%;
+  overflow: scroll;
+  scrollbar-width: none;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 20px;
+  max-height: 300px; // REMOVE THIS LINE
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  .comment {
+    display: flex;
+    width: 100%;
+    gap: rem(12px);
+    padding: 0 rem(11px);
+    color: $black;
+    text-decoration: none;
+
+    &:not(:last-child) {
+      margin-bottom: 16px;
+    }
+
+    .commentBody {
+      &.phone {
+        display: flex;
+        flex-direction: column-reverse;
+
+        .commenter {
+          font-weight: 500;
+          font-size: 16px;
+        }
+
+        .commentTime {
+          font-weight: 500;
+        }
+
+        .commentText {
+          margin: 4px 0 0;
+        }
+      }
+
+      .commentText {
+        margin: 0 0 4px;
+      }
+
+      .commentTime {
+        color: $gray;
+      }
+    }
+  }
+}

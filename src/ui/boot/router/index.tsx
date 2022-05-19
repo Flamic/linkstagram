@@ -25,7 +25,7 @@ const Router: React.FC = () => {
           element={token ? <Navigate to="/" /> : <SignUpPage />}
         />
         <Route
-          path="/profile"
+          path="/profile/:username"
           element={token ? <ProfilePage /> : <Navigate to="/logIn" />}
         />
         <Route path="/*" element={<Navigate to="/" />} />
