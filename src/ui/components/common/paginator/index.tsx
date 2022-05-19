@@ -6,23 +6,12 @@ import Button from '../button'
 import styles from './styles.module.scss'
 
 interface Props {
-  initialPage?: number
-  onChange?(page: number): boolean
+  hideNext?: boolean
+  page: number
+  onChange?(page: number): void
 }
 
-const Paginator: React.FC<Props> = ({ initialPage = 1, onChange }) => {
-  const [page, setPage] = useState(initialPage)
-
-  const changePage = (toPage: number) => {
-    if (onChange) {
-      const accepted = onChange(toPage)
-
-      if (accepted) setPage(toPage)
-    } else {
-      setPage(toPage)
-    }
-  }
-
+const Paginator: React.FC<Props> = ({ hideNext, page, onChange }) => {
   return (
     <div className={styles.box}>
       {page > 1 && (
@@ -30,7 +19,7 @@ const Paginator: React.FC<Props> = ({ initialPage = 1, onChange }) => {
           <Button
             variant="secondary"
             hoverEffect={false}
-            onClick={() => changePage(1)}
+            onClick={() => onChange?.(1)}
             className={styles.button}
           >
             <span className={styles.chevron}>&lt;&lt;</span>
@@ -39,7 +28,7 @@ const Paginator: React.FC<Props> = ({ initialPage = 1, onChange }) => {
           <Button
             variant="secondary"
             hoverEffect={false}
-            onClick={() => changePage(page - 1)}
+            onClick={() => onChange?.(page - 1)}
             className={styles.button}
           >
             <span className={styles.chevron}>&lt;</span>
@@ -47,15 +36,17 @@ const Paginator: React.FC<Props> = ({ initialPage = 1, onChange }) => {
           </Button>
         </>
       )}
-      <Button
-        variant="secondary"
-        hoverEffect={false}
-        onClick={() => changePage(page + 1)}
-        className={cn(styles.button, styles.rightButton)}
-      >
-        <span>Next</span>
-        <span className={styles.chevron}>&gt;</span>
-      </Button>
+      {!hideNext && (
+        <Button
+          variant="secondary"
+          hoverEffect={false}
+          onClick={() => onChange?.(page + 1)}
+          className={cn(styles.button, styles.rightButton)}
+        >
+          <span>Next</span>
+          <span className={styles.chevron}>&gt;</span>
+        </Button>
+      )}
     </div>
   )
 }
