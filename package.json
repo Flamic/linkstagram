@@ -12,6 +12,7 @@
     "@types/react": "^17.0.20",
     "@types/react-dom": "^17.0.9",
     "@types/react-loader-spinner": "^4.0.0",
+    "@types/react-modal": "^3.13.1",
     "@types/react-slick": "^0.23.8",
     "@uppy/aws-s3": "^2.1.0",
     "@uppy/core": "^2.2.0",

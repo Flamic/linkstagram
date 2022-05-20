@@ -1,8 +1,11 @@
+import Modal from 'react-modal'
 import { Provider } from 'react-redux'
 import { ToastContainer } from 'react-toastify'
 
 import Router from './ui/boot/router'
 import setupStore from './ui/boot/store'
+
+Modal.setAppElement('#root')
 
 const App: React.FC = () => {
   const store = setupStore()
