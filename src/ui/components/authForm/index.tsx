@@ -35,7 +35,7 @@ const AuthForm: React.FC<Props> = ({ signUp }) => {
           .required('Required'),
       }),
       password: Yup.string()
-        .min(8, 'Must be 8 characters at least')
+        .min(6, 'Must be 6 characters at least')
         .max(30, 'Must be 30 characters or less')
         .required('Required'),
     }),
