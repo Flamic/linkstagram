@@ -1,7 +1,7 @@
 import formatDistanceToNowStrict from 'date-fns/formatDistanceToNowStrict'
 
 export const humanizeDistanceToNow = (createdAt: string) => {
-  const date = new Date(createdAt)
+  const date = new Date(createdAt.replace(' UTC', ''))
 
   if (Number(Date.now()) - Number(date) < 60000) return 'Just now'
 
