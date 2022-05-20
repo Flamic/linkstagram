@@ -18,3 +18,7 @@ export interface Image {
 export interface PhotoAttribute {
   image: NewImage
 }
+
+export interface InteractiveImage extends Image {
+  onClick?(): void
+}
