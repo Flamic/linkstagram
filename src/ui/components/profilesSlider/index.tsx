@@ -1,7 +1,7 @@
 import { useMediaQuery } from 'react-responsive'
 import Slider from 'react-slick'
 
-import { phoneMedia } from 'core/constants/media'
+import { PHONE_MEDIA } from 'core/constants/media'
 import { Profile } from 'core/types/user'
 import Avatar from 'ui/components/common/avatar'
 
@@ -12,7 +12,7 @@ interface Props {
 }
 
 const ProfilesSlider: React.FC<Props> = ({ profiles }) => {
-  const matchedPhone = useMediaQuery(phoneMedia)
+  const matchedPhone = useMediaQuery(PHONE_MEDIA)
 
   return (
     <div className={styles.box}>

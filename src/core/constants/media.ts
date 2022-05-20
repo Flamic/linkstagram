@@ -1,3 +1,3 @@
 import { MediaQuerySettings } from 'react-responsive'
 
-export const phoneMedia: MediaQuerySettings = { maxWidth: 475 }
+export const PHONE_MEDIA: MediaQuerySettings = { maxWidth: 475 }
