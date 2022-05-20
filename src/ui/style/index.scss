@@ -48,9 +48,13 @@ body {
 }
 
 .ReactModal__Content {
+  position: absolute;
   inset: 50% 0 0 50% !important;
   transform: translate(-50%, -50%);
   border-radius: 32px !important;
+  background-color: $white;
+  outline: none;
+  overflow: hidden;
 
   @include phone-media {
     inset: 0 !important;
