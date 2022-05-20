@@ -1,7 +1,9 @@
 import cn from 'classnames'
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 
+import { removeAuthData, useAuth } from 'core/services/auth'
+import api from 'core/store'
 import useOutsideClick from 'ui/hooks/useOutsideClick'
 
 import Avatar from '../common/avatar'
@@ -13,7 +15,7 @@ import styles from './styles.module.scss'
 const languages = ['EN', 'UA', 'PL', 'RU']
 
 interface Props {
-  mode?: 'avatar' | 'home' | 'logOut'
+  mode?: 'home' | 'logOut'
   onBack?(): void
 }
 
@@ -23,7 +25,14 @@ const Header: React.FC<Props> = ({ onBack, mode }) => {
   const [selectedLang, setSelectedLang] = useState(languages[0])
   const dropdownListRef = useRef(null)
 
+  const token = useAuth()
+  const [getAccount, { data: account }] = api.useLazyGetAccountQuery()
+
   useOutsideClick(dropdownListRef, () => setShowLangList(false))
+
+  useEffect(() => {
+    if (token) getAccount()
+  }, [token, getAccount])
 
   return (
     <header className={styles.header}>
@@ -60,11 +69,8 @@ const Header: React.FC<Props> = ({ onBack, mode }) => {
         />
       </div>
 
-      {mode === 'avatar' && (
-        <Avatar
-          src="https://upload.wikimedia.org/wikipedia/commons/f/fb/Anthro_vixen_colored.jpg"
-          size="medium"
-        />
+      {!mode && account && (
+        <Avatar src={account.profilePhotoUrl} size="medium" />
       )}
 
       {mode === 'home' && (
@@ -83,7 +89,7 @@ const Header: React.FC<Props> = ({ onBack, mode }) => {
           variant="alert"
           border="border"
           className={styles.button}
-          onClick={() => undefined} // TODO: Log Out
+          onClick={() => removeAuthData()}
         >
           Log out
         </Button>
