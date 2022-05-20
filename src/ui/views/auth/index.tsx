@@ -10,14 +10,14 @@ interface Props {
 
 const AuthView: React.FC<Props> = ({ signUp }) => {
   return (
-    <section className={styles.view}>
+    <main className={styles.view}>
       {signUp ? (
         <img src={SignUpBackground} alt="Sign up background" />
       ) : (
         <img src={LogInBackground} alt="Log in background" />
       )}
       <AuthForm signUp={signUp} />
-    </section>
+    </main>
   )
 }
 

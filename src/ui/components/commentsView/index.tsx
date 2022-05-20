@@ -1,8 +1,10 @@
 import cn from 'classnames'
 import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
 import api from 'core/store'
+import { getProfileName } from 'core/utils/profile'
 import { humanizeDistanceToNow } from 'core/utils/time'
 
 import Avatar from '../common/avatar'
@@ -10,8 +12,6 @@ import Loader from '../common/loader'
 import Paginator from '../common/paginator'
 
 import styles from './styles.module.scss'
-import { getProfileName } from 'core/utils/profile'
-import { Link } from 'react-router-dom'
 
 interface Page {
   current: number

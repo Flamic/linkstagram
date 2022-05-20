@@ -1,5 +1,4 @@
 import cn from 'classnames'
-import { useState } from 'react'
 
 import Button from '../button'
 
