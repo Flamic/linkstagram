@@ -10,7 +10,7 @@ interface Props {
   bordered?: boolean
   followable?: boolean
   onChoose?: FileCallback
-  size?: 'small' | 'medium' | 'big' | 'large'
+  size?: 'small' | 'medium' | 'big' | 'large' | 'xl'
   src?: string | null
 }
 

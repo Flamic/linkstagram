@@ -87,6 +87,22 @@
     }
   }
 
+  &.xl {
+    width: 116px;
+    height: 116px;
+
+    .img {
+      border-radius: 32px;
+    }
+
+    &.bordered {
+      @include frame-image('xl');
+      .img {
+        border-radius: 28px;
+      }
+    }
+  }
+
   &.bordered {
     padding: 4px;
     background-size: contain;
