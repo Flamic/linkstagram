@@ -1,7 +1,6 @@
 import cn from 'classnames'
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { toast } from 'react-toastify'
 
 import api from 'core/store'
 import { getProfileName } from 'core/utils/profile'
@@ -41,18 +40,16 @@ const CommentsView: React.FC<Props> = ({ className, phone, postId }) => {
     setPage({ current: toPage, previous: page.current })
 
   if (!isFetching && (isError || !comments || !comments.length)) {
-    if (isError) toast.error('Cannot load comments')
-
     toPreviousPage()
   }
 
   return (
     <section className={cn(styles.box, { [styles.phone]: phone }, className)}>
-      {isFetching ? (
+      {!comments ? (
         <Loader />
       ) : (
         <>
-          {comments?.map((comment) => (
+          {comments.map((comment) => (
             <Link
               key={comment.id}
               className={styles.comment}
@@ -60,6 +57,7 @@ const CommentsView: React.FC<Props> = ({ className, phone, postId }) => {
             >
               <Avatar
                 src={comment.commenter.profilePhotoUrl}
+                id={comment.commenter.username}
                 size={phone ? 'small' : 'medium'}
               />
               <div
@@ -77,7 +75,7 @@ const CommentsView: React.FC<Props> = ({ className, phone, postId }) => {
               </div>
             </Link>
           ))}
-          {comments?.length && (
+          {Boolean(comments?.length) && (
             <Paginator
               page={page.current}
               onChange={toNextPage}
