@@ -1,6 +1,77 @@
 @use '~/src/ui/style/vars' as *;
 @use '~/src/ui/style/functions' as *;
 
+.expandedBox {
+  width: 100%;
+  display: grid;
+  grid-template-columns: auto 1fr rem(140px) rem(140px);
+  grid-template-rows: max-content auto;
+  grid-auto-flow: column;
+  column-gap: 19px;
+  
+  line-height: 20px;
+  color: $black;
+
+  .avatar {
+    grid-row: 3 / 1;
+    margin-right: rem(13px);
+  }
+
+  .name {
+    margin: 6px 0 10px;
+    
+    font-size: 24px;
+    font-weight: 500;
+  }
+
+  .job {
+    margin: 0;
+
+    font-size: 16px;
+    font-weight: 400;
+  }
+
+  .description {
+    max-width: 305px;
+    margin: 20px 10px 0 0;
+
+    font-size: 12px;
+    font-weight: 500;
+    color: $dark-gray;
+  }
+
+  .countBox {
+    align-self: start;
+    text-align: right;
+
+    .value {
+      margin: 6px 0;
+
+      font-size: 20px;
+      font-weight: 600;
+    }
+
+    .text {
+      font-size: 16px;
+      font-weight: 500;
+      color: $gray;
+    }
+
+    &.followers {
+      grid-column-start: 3;
+    }
+
+    &.following {
+      grid-column-start: 4;
+    }
+  }
+
+  .button {
+    width: 100%;
+    align-self: end;
+  }
+}
+
 .box {
   display: flex;
   flex-direction: column;
