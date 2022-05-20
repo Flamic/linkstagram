@@ -1,5 +1,5 @@
 import cn from 'classnames'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 import { ReactComponent as FollowIcon } from 'assets/images/follow-icon.svg'
 import { ReactComponent as UserIcon } from 'assets/images/user-icon.svg'
@@ -9,6 +9,7 @@ import styles from './styles.module.scss'
 interface Props {
   bordered?: boolean
   followable?: boolean
+  id?: number | string
   onChoose?: FileCallback
   size?: 'small' | 'medium' | 'big' | 'large' | 'xl'
   src?: string | null
@@ -17,12 +18,22 @@ interface Props {
 const Avatar: React.FC<Props> = ({
   bordered,
   followable,
+  id,
   onChoose,
   size = 'medium',
   src,
 }) => {
+  const [lastId, setLastId] = useState(id)
   const [url, setUrl] = useState(src)
   const [loaded, setLoaded] = useState(false)
+
+  useEffect(() => {
+    if (id && id === lastId) return
+
+    setLoaded(false)
+    setLastId(id)
+    setUrl(src)
+  }, [src, id, lastId])
 
   const mainImage = (
     <div
