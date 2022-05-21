@@ -7,26 +7,26 @@ import ProfilePage from 'ui/pages/profile'
 import SignUpPage from 'ui/pages/signUp'
 
 const Router: React.FC = () => {
-  const token = useAuth()
+  const auth = useAuth()
 
   return (
     <BrowserRouter>
       <Routes>
         <Route
           path="/"
-          element={token ? <HomePage /> : <Navigate to="/logIn" />}
+          element={auth ? <HomePage /> : <Navigate to="/logIn" />}
         />
         <Route
           path="/logIn"
-          element={token ? <Navigate to="/" /> : <LogInPage />}
+          element={auth ? <Navigate to="/" /> : <LogInPage />}
         />
         <Route
           path="/signUp"
-          element={token ? <Navigate to="/" /> : <SignUpPage />}
+          element={auth ? <Navigate to="/" /> : <SignUpPage />}
         />
         <Route
           path="/profile/:username"
-          element={token ? <ProfilePage /> : <Navigate to="/logIn" />}
+          element={auth ? <ProfilePage /> : <Navigate to="/logIn" />}
         />
         <Route path="/*" element={<Navigate to="/" />} />
       </Routes>

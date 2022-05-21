@@ -25,14 +25,14 @@ const Header: React.FC<Props> = ({ onBack, mode }) => {
   const [selectedLang, setSelectedLang] = useState(languages[0])
   const dropdownListRef = useRef(null)
 
-  const token = useAuth()
+  const auth = useAuth()
   const [getAccount, { data: account }] = api.useLazyGetAccountQuery()
 
   useOutsideClick(dropdownListRef, () => setShowLangList(false))
 
   useEffect(() => {
-    if (token) getAccount()
-  }, [token, getAccount])
+    if (auth) getAccount()
+  }, [auth, getAccount])
 
   return (
     <header className={styles.header}>

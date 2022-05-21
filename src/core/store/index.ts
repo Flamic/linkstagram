@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
 import { API_LINK } from 'core/constants/links'
-import { getToken, setToken } from 'core/services/auth'
+import { getToken, setAuthData } from 'core/services/auth'
 import { Comment, NewComment } from 'core/types/comment'
 import { NewPost, Post } from 'core/types/post'
 import { Account, AuthUser, Profile, SignUpUser } from 'core/types/user'
@@ -37,11 +37,13 @@ const api = createApi({
         )
       }
 
-      const result = await fetch(input, { ...init, body })
-      const data = await result.json()
-      const convertedData = convertObjectKeys(data, nameToCamelCase)
+      const result: Response = await fetch(input, { ...init, body })
 
-      return new Response(JSON.stringify(convertedData), {
+      const data = result.headers.get('content-type')?.includes('json')
+        ? convertObjectKeys(await result.json(), nameToCamelCase)
+        : {}
+
+      return new Response(JSON.stringify(data), {
         headers: result.headers,
         status: result.status,
         statusText: result.statusText,
@@ -63,7 +65,7 @@ const api = createApi({
       transformResponse: (_value, meta, _arg) => {
         const token = meta?.response?.headers.get('Authorization')
 
-        if (token) setToken(token)
+        if (token) setAuthData({ token })
       },
     }),
     createAccount: build.mutation<void, SignUpUser>({
@@ -74,10 +76,10 @@ const api = createApi({
           body,
         }
       },
-      transformResponse: (_value, meta, _arg) => {
+      transformResponse: (_value, meta, arg) => {
         const token = meta?.response?.headers.get('Authorization')
 
-        if (token) setToken(token)
+        if (token) setAuthData({ token, username: arg.username })
       },
     }),
 
@@ -124,12 +126,12 @@ const api = createApi({
         return {
           url: `posts/${id}`,
           method: 'DELETE',
+          body: {},
         }
       },
-      invalidatesTags: (_result, _error, id) => [
-        { type: 'Posts', id },
+      invalidatesTags: (_result, _error, _id) => [
         { type: 'Posts', id: 'LIST' },
-        { type: 'UserPosts', id },
+        { type: 'UserPosts', id: 'LIST' },
       ],
     }),
 
@@ -139,6 +141,7 @@ const api = createApi({
         return {
           url: `posts/${id}/like`,
           method: 'POST',
+          body: {},
         }
       },
       invalidatesTags: (_result, _error, id) => [
@@ -151,6 +154,7 @@ const api = createApi({
         return {
           url: `posts/${id}/like`,
           method: 'DELETE',
+          body: {},
         }
       },
       invalidatesTags: (_result, _error, id) => [
