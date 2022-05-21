@@ -74,11 +74,12 @@ const Avatar: React.FC<Props> = ({
             id="selectAvatar"
             accept="image/png, image/jpeg"
             style={{ display: 'none' }}
-            onChange={(event) =>
-              event.currentTarget.files?.[0] &&
-              onChoose(event.currentTarget.files?.[0]) &&
-              setUrl(URL.createObjectURL(event.currentTarget.files[0]))
-            }
+            onChange={(event) => {
+              if (event.currentTarget.files?.[0]) {
+                onChoose(event.currentTarget.files[0])
+                setUrl(URL.createObjectURL(event.currentTarget.files[0]))
+              }
+            }}
           />
         </label>
       ) : (
