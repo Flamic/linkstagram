@@ -64,6 +64,10 @@
       top: 64px;
       left: 50%;
       transform: translateX(-50%);
+
+      @include phone-media {
+        top: 52px;
+      }
     }
   }
 
