@@ -28,7 +28,7 @@ body {
   opacity: 0;
   transition: all 300ms ease-in-out;
 
-  @include phone-media {
+  @include tablet-media {
     opacity: 1;
     transform: translateX(100%);
   }
@@ -37,7 +37,7 @@ body {
 .ReactModal__Overlay--after-open{
   opacity: 1;
   
-  @include phone-media {
+  @include tablet-media {
     transform: none;
   }
 }
@@ -45,7 +45,7 @@ body {
 .ReactModal__Overlay--before-close{
   opacity: 0;
 
-  @include phone-media {
+  @include tablet-media {
     opacity: 1;
     transform: translateX(100%);
   }
@@ -58,9 +58,11 @@ body {
   border-radius: 32px !important;
   background-color: $white;
   outline: none;
-  overflow: hidden;
+  overflow: hidden auto;
 
-  @include phone-media {
+  @include hide-scrollbar;
+
+  @include tablet-media {
     inset: 0 !important;
     transform: none;
     border-radius: 0 !important;

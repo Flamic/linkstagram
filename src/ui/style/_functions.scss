@@ -33,6 +33,20 @@
 
 @mixin phone-media {
   @media screen and (max-width: 475px) {
-    @content
+    @content;
+  }
+}
+
+@mixin tablet-media {
+  @media screen and (max-width: 720px) {
+    @content;
+  }
+}
+
+@mixin hide-scrollbar {
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
   }
 }
