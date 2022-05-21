@@ -3,10 +3,6 @@ import { useFormik } from 'formik'
 import * as Yup from 'yup'
 
 import { Profile } from 'core/types/user'
-import {
-  convertObjectValues,
-  emptyStringToNull,
-} from 'core/utils/objectConverter'
 
 import Avatar from '../common/avatar'
 import Button from '../common/button'
@@ -42,13 +38,27 @@ const EditProfileForm: React.FC<Props> = ({
         .min(2, 'Must be 2 characters or more')
         .max(20, 'Must be 20 characters or less')
         .required('Required'),
-      firstName: Yup.string().max(30, 'Must be 30 characters or less'),
-      lastName: Yup.string().max(30, 'Must be 30 characters or less'),
-      jobTitle: Yup.string().max(30, 'Must be 30 characters or less'),
-      description: Yup.string().max(100, 'Must be 100 characters or less'),
+      firstName: Yup.string()
+        .max(30, 'Must be 30 characters or less')
+        .nullable(),
+      lastName: Yup.string()
+        .max(30, 'Must be 30 characters or less')
+        .nullable(),
+      jobTitle: Yup.string()
+        .max(30, 'Must be 30 characters or less')
+        .nullable(),
+      description: Yup.string()
+        .max(100, 'Must be 100 characters or less')
+        .nullable(),
     }),
     onSubmit: (values) => {
-      onSave?.(convertObjectValues(values, emptyStringToNull) as EditProfile)
+      onSave?.({
+        ...values,
+        firstName: values.firstName || null,
+        lastName: values.lastName || null,
+        jobTitle: values.jobTitle || null,
+        description: values.description || null,
+      })
     },
   })
 
