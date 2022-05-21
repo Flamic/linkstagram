@@ -5,8 +5,8 @@ import { useMediaQuery } from 'react-responsive'
 import { toast } from 'react-toastify'
 
 import { PHONE_MEDIA } from 'core/constants/media'
+import { useAuth } from 'core/services/auth'
 import api from 'core/store'
-import { Post } from 'core/types/post'
 import { stringifyNumber } from 'core/utils/numberConverter'
 import { getProfileName } from 'core/utils/profile'
 import CommentsView from 'ui/components/commentsView'
@@ -15,23 +15,27 @@ import Button from 'ui/components/common/button'
 import ImageView from 'ui/components/common/imageView'
 import Loader from 'ui/components/common/loader'
 import TextInput from 'ui/components/common/textInput'
+import Header from 'ui/components/header'
+import PostItemView from 'ui/components/postItemView'
 
 import styles from './styles.module.scss'
 
 interface Props {
-  post: Post
+  postId: number
   show?: boolean
   onClose?(): void
 }
 
-const PostView: React.FC<Props> = ({ post, show, onClose }) => {
+const PostView: React.FC<Props> = ({ postId, show, onClose }) => {
   const isPhone = useMediaQuery(PHONE_MEDIA)
+  const auth = useAuth()
   const [comment, setComment] = useState('')
-  const { currentData: data } = api.useGetPostQuery(post.id)
+  const { currentData: data } = api.useGetPostQuery(postId)
   const [postComment, { isLoading: isLoadingComment }] =
     api.useAddCommentMutation()
   const [like, { isLoading: isLoadingLike }] = api.useLikePostMutation()
   const [unlike, { isLoading: isLoadingUnlike }] = api.useUnlikePostMutation()
+  const [remove, { isLoading: isLoadingRemove }] = api.useDeletePostMutation()
 
   const likePost = () => {
     if (
@@ -47,7 +51,7 @@ const PostView: React.FC<Props> = ({ post, show, onClose }) => {
       .unwrap()
       .catch((error) => {
         console.error(error)
-        toast('Something went wrong')
+        toast.error('Something went wrong')
       })
   }
 
@@ -58,11 +62,74 @@ const PostView: React.FC<Props> = ({ post, show, onClose }) => {
       .unwrap()
       .catch((error) => {
         console.error(error)
-        toast('Something went wrong when trying to post comment')
+        toast.error('Something went wrong when trying to post comment')
       })
   }
 
-  return (
+  const removePost = () => {
+    if (isLoadingRemove) return
+
+    remove(postId)
+      .unwrap()
+      .then(() => {
+        toast.success('Post was successfull deleted')
+        onClose?.()
+      })
+      .catch((error) => {
+        console.error(error)
+        toast.error('Something went wrong when trying to remove post')
+      })
+  }
+
+  return isPhone ? (
+    <ReactModal
+      isOpen={Boolean(show)}
+      closeTimeoutMS={300}
+      shouldCloseOnOverlayClick
+      onRequestClose={onClose}
+      className={styles.phoneModal}
+    >
+      <Header onBack={onClose} />
+      <div className={styles.content}>
+        {!data ? (
+          <div className={styles.loaderBox}>
+            <Loader />
+          </div>
+        ) : (
+          <>
+            <PostItemView
+              post={data}
+              onLike={likePost}
+              onRemove={
+                auth?.username === data.author.username ? removePost : undefined
+              }
+            />
+            <CommentsView
+              postId={data.id}
+              phone
+              className={styles.commentsViewBox}
+            />
+            <div className={styles.commentBox}>
+              <TextInput
+                placeholder="Add a comment..."
+                multiline
+                onChange={(event) => setComment(event.target.value)}
+                className={styles.inputBox}
+                inputClassName={styles.input}
+              />
+              <Button
+                variant="secondary"
+                onClick={commentPost}
+                className={styles.postButton}
+              >
+                Post
+              </Button>
+            </div>
+          </>
+        )}
+      </div>
+    </ReactModal>
+  ) : (
     <ReactModal
       isOpen={Boolean(show)}
       closeTimeoutMS={300}
@@ -95,11 +162,7 @@ const PostView: React.FC<Props> = ({ post, show, onClose }) => {
                 <i className="icon-cross" />
               </button>
             </div>
-            <CommentsView
-              postId={data.id}
-              phone={isPhone}
-              className={styles.commentsViewBox}
-            />
+            <CommentsView postId={data.id} className={styles.commentsViewBox} />
             <div>
               <Button
                 variant="secondary"

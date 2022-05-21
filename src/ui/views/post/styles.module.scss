@@ -1,17 +1,47 @@
 @use '~/src/ui/style/vars' as *;
 @use '~/src/ui/style/functions' as *;
 
+.loaderBox {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.commentBox {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  .inputBox {
+    width: 100%;
+  }
+
+  .input {
+    border: none;
+    border-radius: 0;
+    padding: 0;
+  }
+
+  .postButton {
+    color: $blue;
+  }
+}
+
+.phoneModal {
+  .commentsViewBox {
+    margin: 24px 0;
+  }
+
+  .content {
+    padding: 24px 16px;
+  }
+}
+
 .modal {
   width: rem(1080px);
   max-width: 95%;
   height: rem(680px);
   padding: 0;
-
-  .loaderBox {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
 
   .box {
     display: flex;
@@ -82,26 +112,6 @@
 
         .liked {
           color: $red;
-        }
-      }
-
-      .commentBox {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-
-        .inputBox {
-          width: 100%;
-        }
-
-        .input {
-          border: none;
-          border-radius: 0;
-          padding: 0;
-        }
-
-        .postButton {
-          color: $blue;
         }
       }
     }

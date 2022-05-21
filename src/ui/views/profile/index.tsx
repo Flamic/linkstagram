@@ -20,11 +20,11 @@ interface Props {
 const ProfileView: React.FC<Props> = ({ username }) => {
   const isMobile = useMediaQuery({ maxWidth: 720 })
   const currentUser = useAuth()
-  const [openedPost, setOpenedPost] = useState<Post | null>(null)
+  const [openedPost, setOpenedPost] = useState<number | null>(null)
   const [isModalOpened, setIsModalOpened] = useState(false)
 
-  const openPost = (post: Post) => {
-    setOpenedPost(post)
+  const openPost = (postId: number) => {
+    setOpenedPost(postId)
     setIsModalOpened(true)
   }
 
@@ -75,7 +75,7 @@ const ProfileView: React.FC<Props> = ({ username }) => {
       <ImagesGrid
         images={posts.map((post) => ({
           ...post.photos[0],
-          onClick: () => openPost(post),
+          onClick: () => openPost(post.id),
         }))}
       />
     )
@@ -87,7 +87,7 @@ const ProfileView: React.FC<Props> = ({ username }) => {
       {getPostsView()}
       {openedPost && (
         <PostView
-          post={openedPost}
+          postId={openedPost}
           show={isModalOpened}
           onClose={() => setIsModalOpened(false)}
         />
