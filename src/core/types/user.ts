@@ -1,3 +1,5 @@
+import { NewImage } from './image'
+
 export interface AuthUser {
   login: string
   password: string
@@ -20,4 +22,13 @@ export interface Profile {
 
 export interface Account extends Profile {
   email: string
+}
+
+export interface EditAccount {
+  account: Partial<
+    Pick<
+      Profile,
+      'description' | 'firstName' | 'lastName' | 'jobTitle' | 'username'
+    > & { profilePhoto: NewImage }
+  >
 }
