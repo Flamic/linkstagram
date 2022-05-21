@@ -47,21 +47,13 @@ export const setAuthData = (data: AuthData) => {
   }
 }
 
-const updateUsername = () => {
+export const updateUsername = (username: string) => {
   const token = getToken()
 
   if (!token) return
 
-  fetch(`${API_LINK}${ACCOUNT_ROUTE}`, {
-    headers: { authorization: token },
-  }).then((response) =>
-    response.json().then((account: Account) => {
-      localStorage.setItem(USERNAME_KEY, account.username)
-      subscribers.forEach((subscriber) =>
-        subscriber.notify({ token, username: account.username }),
-      )
-    }),
-  )
+  localStorage.setItem(USERNAME_KEY, username)
+  subscribers.forEach((subscriber) => subscriber.notify({ token, username }))
 }
 
 export const removeAuthData = () => {

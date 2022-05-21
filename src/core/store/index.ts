@@ -2,14 +2,16 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
 import { API_LINK } from 'core/constants/links'
 import { getToken, setAuthData } from 'core/services/auth'
+import fetchFn from 'core/services/fetch'
 import { Comment, NewComment } from 'core/types/comment'
 import { NewPost, Post } from 'core/types/post'
-import { Account, AuthUser, Profile, SignUpUser } from 'core/types/user'
 import {
-  convertObjectKeys,
-  nameToCamelCase,
-  nameToSnakeCase,
-} from 'core/utils/objectConverter'
+  Account,
+  AuthUser,
+  EditAccount,
+  Profile,
+  SignUpUser,
+} from 'core/types/user'
 
 const api = createApi({
   reducerPath: 'api',
@@ -24,31 +26,7 @@ const api = createApi({
 
       return headers
     },
-    fetchFn: async (input, init) => {
-      let body = init?.body
-
-      if (
-        typeof body === 'string' &&
-        init?.method &&
-        ['POST', 'PUT', 'PATCH'].includes(init.method)
-      ) {
-        body = JSON.stringify(
-          convertObjectKeys(JSON.parse(body), nameToSnakeCase),
-        )
-      }
-
-      const result: Response = await fetch(input, { ...init, body })
-
-      const data = result.headers.get('content-type')?.includes('json')
-        ? convertObjectKeys(await result.json(), nameToCamelCase)
-        : {}
-
-      return new Response(JSON.stringify(data), {
-        headers: result.headers,
-        status: result.status,
-        statusText: result.statusText,
-      })
-    },
+    fetchFn,
   }),
   tagTypes: ['Posts', 'UserPosts', 'Comments', 'Account'],
 
@@ -200,7 +178,7 @@ const api = createApi({
       query: () => 'account',
       providesTags: ['Account'],
     }),
-    updateAccount: build.mutation<Account, Partial<Account>>({
+    updateAccount: build.mutation<Account, EditAccount>({
       query(body) {
         return { url: 'account', method: 'PATCH', body }
       },
