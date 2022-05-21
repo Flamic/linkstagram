@@ -8,6 +8,7 @@ import { humanizeDistanceToNow } from 'core/utils/time'
 
 import Avatar from '../common/avatar'
 import Button from '../common/button'
+import ImageView from '../common/imageView'
 import MenuButton from '../common/menuButton'
 
 import styles from './styles.module.scss'
@@ -27,18 +28,18 @@ const PostItemView: React.FC<Props> = ({
   onRemove,
   onViewPost,
 }) => {
-  const menuItems = onRemove
-    ? ['View', 'Like', 'Comment', 'Remove']
-    : ['View', 'Like', 'Comment']
+  const menuItems: string[] = []
+
+  if (onViewPost) menuItems.push('View')
+
+  if (onComment) menuItems.push('Comment')
+
+  if (onRemove) menuItems.push('Remove')
 
   const onSelectItem = (selected: string) => {
     switch (selected) {
       case 'View':
         onViewPost?.()
-
-        break
-      case 'Like':
-        onLike?.()
 
         break
       case 'Comment':
@@ -58,7 +59,7 @@ const PostItemView: React.FC<Props> = ({
     <section className={styles.box}>
       <div className={styles.userRow}>
         <Link to={`/profile/${post.author.username}`} className={styles.link}>
-          <Avatar src={post.author.profilePhotoUrl} />
+          <Avatar src={post.author.profilePhotoUrl} id={post.author.username} />
           <div className={styles.userData}>
             <div>{getProfileName(post.author)}</div>
             <div className={styles.createdAt}>
@@ -66,11 +67,15 @@ const PostItemView: React.FC<Props> = ({
             </div>
           </div>
         </Link>
-        <MenuButton items={menuItems} onSelect={onSelectItem} />
+        {Boolean(menuItems.length) && (
+          <MenuButton items={menuItems} onSelect={onSelectItem} />
+        )}
       </div>
-      <button type="button" onClick={onViewPost} className={styles.imgWrapper}>
-        <img src={post.photos[0].url} alt="Post" className={styles.img} />
-      </button>
+      <ImageView
+        images={post.photos.slice().reverse()}
+        keepAspectRatio
+        className={styles.imageView}
+      />
       {post.description && <p>{post.description}</p>}
       <div className={styles.bottomRow}>
         <Button

@@ -12,7 +12,7 @@
   .userRow {
     display: flex;
     align-items: center;
-    margin-bottom: 16px;
+    margin-bottom: rem(16px);
 
     .link {
       display: contents;
@@ -36,34 +36,15 @@
     }
   }
 
-  .imgWrapper {
-    position: relative;
-    width: 100%;
+  .imageView {
     border-radius: 48px;
     overflow: hidden;
-    margin-bottom: 20px;
-    outline: none;
-    border: none;
-    background-color: transparent;
+    margin-bottom: rem(20px);
     cursor: pointer;
 
     @include phone-media {
       margin-bottom: 16px;
-    }
-
-    &::after {
-      content: '';
-      display: block;
-      padding-top: 100%;
-    }
-
-    .img {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
+      border-radius: 24px;
     }
   }
 
