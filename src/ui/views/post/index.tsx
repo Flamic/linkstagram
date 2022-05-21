@@ -4,7 +4,7 @@ import ReactModal from 'react-modal'
 import { useMediaQuery } from 'react-responsive'
 import { toast } from 'react-toastify'
 
-import { PHONE_MEDIA } from 'core/constants/media'
+import { TABLET_MEDIA } from 'core/constants/media'
 import { useAuth } from 'core/services/auth'
 import api from 'core/store'
 import { stringifyNumber } from 'core/utils/numberConverter'
@@ -27,7 +27,7 @@ interface Props {
 }
 
 const PostView: React.FC<Props> = ({ postId, show, onClose }) => {
-  const isPhone = useMediaQuery(PHONE_MEDIA)
+  const isPhone = useMediaQuery(TABLET_MEDIA)
   const auth = useAuth()
   const [comment, setComment] = useState('')
   const { currentData: data } = api.useGetPostQuery(postId)

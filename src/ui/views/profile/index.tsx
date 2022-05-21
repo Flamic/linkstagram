@@ -4,7 +4,6 @@ import { useMediaQuery } from 'react-responsive'
 
 import { useAuth } from 'core/services/auth'
 import api from 'core/store'
-import { Post } from 'core/types/post'
 import Loader from 'ui/components/common/loader'
 import ImagesGrid from 'ui/components/imagesGrid'
 import ProfileData from 'ui/components/profileData'
