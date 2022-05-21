@@ -8,9 +8,9 @@ import { PhotoAttribute } from 'core/types/image'
 const initUppy = () => {
   const uppy = new Uppy({
     restrictions: {
-      maxFileSize: MAX_IMAGE_SIZE, // 5MB
+      maxFileSize: MAX_IMAGE_SIZE,
       maxNumberOfFiles: MAX_POST_IMAGES_COUNT,
-      allowedFileTypes: ['image/png', 'image/jpg'],
+      allowedFileTypes: ['image/png', 'image/jpeg'],
     },
   })
 
@@ -53,4 +53,8 @@ export const uploadFiles = async (files: File[]): Promise<PhotoAttribute[]> => {
       },
     }
   })
+}
+
+export const removeFile = (id: string) => {
+  uppy.removeFile(id)
 }
