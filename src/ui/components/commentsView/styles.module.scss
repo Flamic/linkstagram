@@ -4,20 +4,16 @@
 .box {
   width: 100%;
   overflow: scroll;
-  scrollbar-width: none;
   font-size: 12px;
   font-weight: 400;
   line-height: 20px;
 
-  &::-webkit-scrollbar {
-    display: none;
-  }
+  @include hide-scrollbar;
 
   .comment {
     display: flex;
     width: 100%;
     gap: rem(12px);
-    padding: 0 rem(11px);
     color: $black;
     text-decoration: none;
 
@@ -46,6 +42,7 @@
 
       .commentText {
         margin: 0 0 4px;
+        word-break: break-word;
       }
 
       .commentTime {
