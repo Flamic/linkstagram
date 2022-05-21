@@ -70,13 +70,16 @@ const Header: React.FC<Props> = ({ onBack, mode }) => {
       </div>
 
       {!mode && account && (
-        <Avatar src={account.profilePhotoUrl} size="medium" />
+        <Link to={`/profile/${account.username}`}>
+          <Avatar src={account.profilePhotoUrl} size="medium" />
+        </Link>
       )}
 
       {mode === 'home' && (
         <Button
           variant="ghost"
           border="border"
+          size="small"
           className={styles.button}
           onClick={() => navigate('/')}
         >
@@ -88,6 +91,7 @@ const Header: React.FC<Props> = ({ onBack, mode }) => {
         <Button
           variant="alert"
           border="border"
+          size="small"
           className={styles.button}
           onClick={() => removeAuthData()}
         >
