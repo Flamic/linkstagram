@@ -25,6 +25,7 @@ const TextInput: React.FC<Props> = ({
   error,
   multiline,
   showIndicator,
+  value,
   ...props
 }) => {
   const InputElement = multiline ? 'textarea' : 'input'
@@ -42,6 +43,7 @@ const TextInput: React.FC<Props> = ({
               styles.input,
               inputClassName,
             )}
+            value={value || ''}
             {...props}
           />
           {showIndicator &&
