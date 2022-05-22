@@ -1,0 +1,33 @@
+{
+  "files": {
+    "main.css": "/linkstagram/static/css/main.b0a35cd4.css",
+    "main.js": "/linkstagram/static/js/main.195b37bf.js",
+    "static/media/log-in-bg.png": "/linkstagram/static/media/log-in-bg.b6854755dc2b559b9133.png",
+    "static/media/sign-up-bg.png": "/linkstagram/static/media/sign-up-bg.b60c062be6eb9196a4ad.png",
+    "static/media/icomoon.svg?goyks6": "/linkstagram/static/media/icomoon.5a1fda23f02491ff9ba4.svg",
+    "static/media/icomoon.eot?goyks6": "/linkstagram/static/media/icomoon.8265947d41c93f1b9655.eot",
+    "static/media/icomoon.woff?goyks6": "/linkstagram/static/media/icomoon.40dfe1f91c15bbc2c175.woff",
+    "static/media/icomoon.ttf?goyks6": "/linkstagram/static/media/icomoon.302ae012cac908070a84.ttf",
+    "static/media/slick.svg": "/linkstagram/static/media/slick.2630a3e3eab21c607e21.svg",
+    "static/media/slick.eot": "/linkstagram/static/media/slick.a4e97f5a2a64f0ab1323.eot",
+    "static/media/slick.ttf": "/linkstagram/static/media/slick.c94f7671dcc99dce43e2.ttf",
+    "static/media/image-icon.svg": "/linkstagram/static/media/image-icon.27206b65b72bc54197a38fe4b4a3c80b.svg",
+    "static/media/slick.woff": "/linkstagram/static/media/slick.295183786cd8a1389865.woff",
+    "static/media/short-arrow-icon.svg": "/linkstagram/static/media/short-arrow-icon.9ba1dcb7bb35c5b4fa0db0b34213232a.svg",
+    "index.html": "/linkstagram/index.html",
+    "static/media/follow-icon.svg": "/linkstagram/static/media/follow-icon.04db1c163ab80b905828c8b6289a8e9b.svg",
+    "static/media/user-icon.svg": "/linkstagram/static/media/user-icon.84e157f444846d59918defea5d1f0944.svg",
+    "static/media/xl-frame.svg": "/linkstagram/static/media/xl-frame.f84bdc901018a1d477a0.svg",
+    "static/media/large-frame.svg": "/linkstagram/static/media/large-frame.7ed8393d8fa2cf123100.svg",
+    "static/media/big-frame.svg": "/linkstagram/static/media/big-frame.f9ac0f3217a0341312e5.svg",
+    "static/media/medium-frame.svg": "/linkstagram/static/media/medium-frame.c3d256852daf1762a234.svg",
+    "static/media/error-icon.svg": "/linkstagram/static/media/error-icon.e60cc3de694cde499dbda7843d5beb75.svg",
+    "static/media/pass-icon.svg": "/linkstagram/static/media/pass-icon.262c0b327e14d76804eefc4cecf4271c.svg",
+    "main.b0a35cd4.css.map": "/linkstagram/static/css/main.b0a35cd4.css.map",
+    "main.195b37bf.js.map": "/linkstagram/static/js/main.195b37bf.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.b0a35cd4.css",
+    "static/js/main.195b37bf.js"
+  ]
+}
