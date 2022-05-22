@@ -55,6 +55,6 @@ export const uploadFiles = async (files: File[]): Promise<PhotoAttribute[]> => {
   })
 }
 
-export const removeFile = (id: string) => {
-  uppy.removeFile(id)
+export const removeFiles = (ids: string[]) => {
+  ids.forEach((id) => uppy.removeFile(id))
 }
