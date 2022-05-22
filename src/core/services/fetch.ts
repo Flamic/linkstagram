@@ -16,7 +16,6 @@ const fetchFn = async (input: RequestInfo, init?: RequestInit) => {
       convertObjectKeys(await input.json(), nameToSnakeCase),
     )
     result = await fetch(new Request(input, { body }), init)
-    console.log(result)
   } else {
     result = await fetch(input, init)
   }
