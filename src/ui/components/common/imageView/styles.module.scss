@@ -24,6 +24,10 @@
     min-height: 100px;
   }
 
+  &.interactive {
+    cursor: pointer;
+  }
+
   :global(.slick-list),
   :global(.slick-track),
   :global(.slick-slide *) {
@@ -65,6 +69,11 @@
     .img {
       display: block;
       object-fit: cover;
+      width: 100%;
+
+      &.invisible {
+        display: none;
+      }
 
       &.contain {
         object-fit: contain;
@@ -78,6 +87,10 @@
       align-items: center;
       background-color: $gray;
       fill: $white;
+
+      &.invisible {
+        display: none;
+      }
     }
 
     .arrowButton {

@@ -13,12 +13,18 @@ interface Props {
   contain?: boolean
   images: Image[]
   keepAspectRatio?: boolean
+  onClick?(): void
 }
 
 interface ArrowProps {
   direction: 'right' | 'left'
   hide?: boolean
   onClick?(): void
+}
+
+interface ImageItemProps {
+  contain?: boolean
+  src: string
 }
 
 const NextArrow: React.FC<ArrowProps> = ({ direction, hide, onClick }) =>
@@ -29,17 +35,45 @@ const NextArrow: React.FC<ArrowProps> = ({ direction, hide, onClick }) =>
         [styles.left]: direction === 'left',
         [styles.right]: direction === 'right',
       })}
-      onClick={onClick}
+      onClick={(event) => {
+        event.stopPropagation()
+        onClick?.()
+      }}
     >
       <Arrow className={styles.arrow} />
     </button>
   )
+
+const ImageItem: React.FC<ImageItemProps> = ({ contain, src }) => {
+  const [loaded, setLoaded] = useState(true)
+
+  return (
+    <>
+      <img
+        src={src}
+        alt="Post"
+        className={cn(styles.img, {
+          [styles.contain]: contain,
+          [styles.invisible]: !loaded,
+        })}
+        onLoad={() => setLoaded(true)}
+        onError={() => setLoaded(false)}
+      />
+      {!loaded && (
+        <div className={styles.defaultImg}>
+          <ImageIcon />
+        </div>
+      )}
+    </>
+  )
+}
 
 const ImageView: React.FC<Props> = ({
   className,
   contain,
   images,
   keepAspectRatio,
+  onClick,
 }) => {
   const [slideIndex, setSlideIndex] = useState(0)
 
@@ -47,9 +81,16 @@ const ImageView: React.FC<Props> = ({
     <div
       className={cn(
         styles.box,
-        { [styles.keepAspectRatio]: keepAspectRatio },
+        {
+          [styles.keepAspectRatio]: keepAspectRatio,
+          [styles.interactive]: onClick,
+        },
         className,
       )}
+      onClick={onClick}
+      role="button"
+      tabIndex={0}
+      aria-hidden="true"
     >
       <Slider
         centerPadding="24px"
@@ -70,12 +111,7 @@ const ImageView: React.FC<Props> = ({
       >
         {images.length ? (
           images.map((image) => (
-            <img
-              key={image.id}
-              src={image.url}
-              alt="Post"
-              className={cn(styles.img, { [styles.contain]: contain })}
-            />
+            <ImageItem key={image.id} src={image.url} contain={contain} />
           ))
         ) : (
           <div className={styles.defaultImg}>
