@@ -27,6 +27,8 @@
     @include tablet-media {
       display: block;
       padding: 32px;
+      overflow: hidden auto;
+      @include hide-scrollbar;
     }
 
     @include phone-media {
