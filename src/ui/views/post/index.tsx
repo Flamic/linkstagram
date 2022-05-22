@@ -30,7 +30,7 @@ const PostView: React.FC<Props> = ({ postId, show, onClose }) => {
   const isPhone = useMediaQuery(TABLET_MEDIA)
   const auth = useAuth()
   const [comment, setComment] = useState('')
-  const { currentData: data } = api.useGetPostQuery(postId)
+  const { data } = api.useGetPostQuery(postId)
   const [postComment, { isLoading: isLoadingComment }] =
     api.useAddCommentMutation()
   const [like, { isLoading: isLoadingLike }] = api.useLikePostMutation()
@@ -58,7 +58,7 @@ const PostView: React.FC<Props> = ({ postId, show, onClose }) => {
   const commentPost = () => {
     if (!data || isLoadingComment) return
 
-    postComment({ postId: data.id, message: comment })
+    postComment({ postId, message: comment })
       .unwrap()
       .catch((error) => {
         console.error(error)
