@@ -71,12 +71,16 @@ const PostItemView: React.FC<Props> = ({
           <MenuButton items={menuItems} onSelect={onSelectItem} />
         )}
       </div>
+
       <ImageView
         images={post.photos.slice().reverse()}
         keepAspectRatio
         className={styles.imageView}
+        onClick={onViewPost}
       />
+
       {post.description && <p>{post.description}</p>}
+
       <div className={styles.bottomRow}>
         <Button
           variant="secondary"
