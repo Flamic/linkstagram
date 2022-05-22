@@ -10,6 +10,7 @@ import styles from './styles.module.scss'
 
 interface Props {
   className?: string
+  contain?: boolean
   images: Image[]
   keepAspectRatio?: boolean
 }
@@ -34,7 +35,12 @@ const NextArrow: React.FC<ArrowProps> = ({ direction, hide, onClick }) =>
     </button>
   )
 
-const ImageView: React.FC<Props> = ({ className, images, keepAspectRatio }) => {
+const ImageView: React.FC<Props> = ({
+  className,
+  contain,
+  images,
+  keepAspectRatio,
+}) => {
   const [slideIndex, setSlideIndex] = useState(0)
 
   return (
@@ -68,7 +74,7 @@ const ImageView: React.FC<Props> = ({ className, images, keepAspectRatio }) => {
               key={image.id}
               src={image.url}
               alt="Post"
-              className={styles.img}
+              className={cn(styles.img, { [styles.contain]: contain })}
             />
           ))
         ) : (
