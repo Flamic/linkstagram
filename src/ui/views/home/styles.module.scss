@@ -1,0 +1,49 @@
+@use '~/src/ui/style/functions' as *;
+@use '~/src/ui/style/vars' as *;
+
+.main {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  gap: 82px;
+  padding: 32px 24px;
+
+  @include phone-media {
+    padding: 24px 18px;
+  }
+
+  .leftBox {
+    max-width: 560px;
+    width: 100%;
+
+    .postBox {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 52px;
+      margin-top: 48px;
+
+      @include phone-media {
+        gap: 24px;
+        margin-top: 24px;
+      }
+    }
+  }
+
+  .rightBox {
+    position: sticky;
+    top: 120px;
+    height: fit-content;
+    max-width: 305px;
+
+    .footer {
+      font-size: 11px;
+      font-weight: 300;
+      line-height: 20px;
+      color: $gray;
+      text-align: center;
+      letter-spacing: 0.05em;
+      margin-top: 32px;
+    }
+  }
+}

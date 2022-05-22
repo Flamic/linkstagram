@@ -1,17 +1,13 @@
-import { Link } from 'react-router-dom'
+import Header from 'ui/components/header'
+import HomeView from 'ui/views/home'
 
-const HomePage = () => (
-  <>
-    <div>Home Page</div>
-    <ul>
-      <li>
-        <Link to="/">Home</Link>
-      </li>
-      <li>
-        <Link to="/profile">Profile</Link>
-      </li>
-    </ul>
-  </>
-)
+const HomePage = () => {
+  return (
+    <>
+      <Header />
+      <HomeView />
+    </>
+  )
+}
 
 export default HomePage
