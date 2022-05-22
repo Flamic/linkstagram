@@ -3,12 +3,14 @@
 
 .box {
   width: 100%;
-  overflow: scroll;
   font-size: 12px;
   font-weight: 400;
   line-height: 20px;
 
-  @include hide-scrollbar;
+  &:not(.phone) {
+    overflow: auto;
+    @include hide-scrollbar;
+  }
 
   .comment {
     display: flex;
