@@ -1,10 +1,12 @@
 import cn from 'classnames'
 import { useFormik } from 'formik'
+import { useMediaQuery } from 'react-responsive'
 import { toast } from 'react-toastify'
 import * as Yup from 'yup'
 
 import { ReactComponent as ImageIcon } from 'assets/images/image-icon.svg'
 import { MAX_POST_IMAGES_COUNT } from 'core/constants/limits'
+import { TABLET_MEDIA } from 'core/constants/media'
 import { RawNewPost } from 'core/types/post'
 
 import Button from '../common/button'
@@ -14,12 +16,12 @@ import TextInput from '../common/textInput'
 import styles from './styles.module.scss'
 
 interface Props {
-  phone?: boolean
   onCancel?(): void
   onPost?(post: RawNewPost): void
 }
 
-const PostForm: React.FC<Props> = ({ phone, onCancel, onPost }) => {
+const PostForm: React.FC<Props> = ({ onCancel, onPost }) => {
+  const isTablet = useMediaQuery(TABLET_MEDIA)
   const formik = useFormik<RawNewPost>({
     initialValues: {
       description: '',
@@ -27,7 +29,7 @@ const PostForm: React.FC<Props> = ({ phone, onCancel, onPost }) => {
     },
     validationSchema: Yup.object({
       description: Yup.string()
-        .max(100, 'Must be 100 characters or less')
+        .max(200, 'Must be 200 characters or less')
         .nullable(),
     }),
     onSubmit: (values) => {
@@ -48,11 +50,11 @@ const PostForm: React.FC<Props> = ({ phone, onCancel, onPost }) => {
   return (
     <form className={styles.form} onSubmit={formik.handleSubmit}>
       <div className={styles.upperBox}>
-        <div>
+        <div className={styles.imageBoxWrapper}>
           <label htmlFor="selectImage">
             <div
               className={cn(styles.imageBox, styles.listElement, {
-                [styles.invert]: phone,
+                [styles.invert]: isTablet,
               })}
             >
               {filesPresent() ? (
@@ -61,12 +63,13 @@ const PostForm: React.FC<Props> = ({ phone, onCancel, onPost }) => {
                     id: index,
                     url: URL.createObjectURL(file),
                   }))}
+                  keepAspectRatio={isTablet}
                 />
               ) : (
                 <div className={cn(styles.defaultImage)}>
                   <ImageIcon className={styles.imageIcon} />
                   <div className={styles.defaultLabel}>
-                    {phone
+                    {isTablet
                       ? 'Tap here to choose any photo from your library'
                       : 'Choose any photo from your library'}
                   </div>
@@ -113,7 +116,7 @@ const PostForm: React.FC<Props> = ({ phone, onCancel, onPost }) => {
 
       <div
         className={cn(
-          phone ? styles.buttonColumn : styles.buttonRow,
+          isTablet ? styles.buttonColumn : styles.buttonRow,
           styles.listElement,
         )}
       >

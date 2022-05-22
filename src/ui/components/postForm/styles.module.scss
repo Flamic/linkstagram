@@ -18,51 +18,71 @@
       margin-bottom: 32px;
     }
 
-    .imageBox {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 345px;
-      overflow: hidden;
-      cursor: pointer;
+    .imageBoxWrapper {
+      .imageBox {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 345px;
+        overflow: hidden;
+        cursor: pointer;
 
-      border-radius: 12px;
-      color: $white;
-      background-color: $gray;
-      font-weight: 500;
-      font-size: 16px;
+        border-radius: 12px;
+        color: $white;
+        background-color: $gray;
+        font-weight: 500;
+        font-size: 16px;
 
-      &.invert {
-        color: $gray;
-        background-color: $white;
-        border: solid 1px $gray;
+        &.invert {
+          color: $gray;
+          background-color: $white;
+          border: solid 1px $gray;
 
-        font-weight: 600;
-        font-size: 12px;
+          font-weight: 600;
+          font-size: 12px;
+        }
+
+        .defaultImage {
+          position: relative;
+          width: 100%;
+          text-align: center;
+
+          .imageIcon {
+            fill: currentColor;
+          }
+
+          .defaultLabel {
+            position: absolute;
+            top: 130%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60%;
+          }
+        }
+
+        .img {
+          height: 100%;
+          width: 100%;
+          object-fit: cover;
+        }
       }
 
-      .defaultImage {
+      @include tablet-media {
         position: relative;
-        width: 100%;
-        text-align: center;
 
-        .imageIcon {
-          fill: currentColor;
+        &::after {
+          content: '';
+          display: block;
+          padding-top: 100%;
         }
 
-        .defaultLabel {
+        .imageBox {
           position: absolute;
-          top: 130%;
-          left: 50%;
-          transform: translateX(-50%);
-          width: 60%;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
         }
-      }
-
-      .img {
-        height: 100%;
-        width: 100%;
-        object-fit: cover;
       }
     }
   }
