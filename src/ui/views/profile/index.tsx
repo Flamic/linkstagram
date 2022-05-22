@@ -8,6 +8,8 @@ import Loader from 'ui/components/common/loader'
 import ImagesGrid from 'ui/components/imagesGrid'
 import ProfileData from 'ui/components/profileData'
 
+import CreatePostView from '../createPost'
+import EditProfileView from '../editProfile'
 import PostView from '../post'
 
 import styles from './styles.module.scss'
@@ -20,11 +22,14 @@ const ProfileView: React.FC<Props> = ({ username }) => {
   const isMobile = useMediaQuery({ maxWidth: 720 })
   const currentUser = useAuth()
   const [openedPost, setOpenedPost] = useState<number | null>(null)
-  const [isModalOpened, setIsModalOpened] = useState(false)
+  const [isViewPostModalOpened, setIsViewPostModalOpened] = useState(false)
+  const [isEditProfileModalOpened, setIsEditProfileModalOpened] =
+    useState(false)
+  const [isNewPostModalOpened, setIsNewPostModalOpened] = useState(false)
 
   const openPost = (postId: number) => {
     setOpenedPost(postId)
-    setIsModalOpened(true)
+    setIsViewPostModalOpened(true)
   }
 
   const {
@@ -38,7 +43,7 @@ const ProfileView: React.FC<Props> = ({ username }) => {
     isError: isPostsError,
   } = api.useGetPostsOfUserQuery(username)
 
-  useEffect(() => setIsModalOpened(false), [profile?.username])
+  useEffect(() => setIsViewPostModalOpened(false), [profile?.username])
 
   const getProfileView = () => {
     if (isLoadingProfile) return <Loader />
@@ -52,10 +57,14 @@ const ProfileView: React.FC<Props> = ({ username }) => {
         expanded={!isMobile}
         profile={profile}
         onEdit={
-          profile.username === currentUser?.username ? () => 1 : undefined // TODO: Edit form
+          profile.username === currentUser?.username
+            ? () => setIsEditProfileModalOpened(true)
+            : undefined
         }
         onPostCreate={
-          profile.username === currentUser?.username ? () => 2 : undefined // TODO: Post create form
+          profile.username === currentUser?.username
+            ? () => setIsNewPostModalOpened(true)
+            : undefined
         }
       />
     )
@@ -87,9 +96,21 @@ const ProfileView: React.FC<Props> = ({ username }) => {
       {openedPost && (
         <PostView
           postId={openedPost}
-          show={isModalOpened}
-          onClose={() => setIsModalOpened(false)}
+          show={isViewPostModalOpened}
+          onClose={() => setIsViewPostModalOpened(false)}
         />
+      )}
+      {profile && currentUser?.username === profile?.username && (
+        <>
+          <EditProfileView
+            show={isEditProfileModalOpened}
+            onClose={() => setIsEditProfileModalOpened(false)}
+          />
+          <CreatePostView
+            show={isNewPostModalOpened}
+            onClose={() => setIsNewPostModalOpened(false)}
+          />
+        </>
       )}
     </main>
   )
