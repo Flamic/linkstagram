@@ -27,12 +27,16 @@ const COMMENTS_COUNT_ON_PAGE = 25
 
 const CommentsView: React.FC<Props> = ({ className, phone, postId }) => {
   const [page, setPage] = useState<Page>({ current: 1 })
-  const [getComments, { data: comments, isFetching, isError }] =
-    api.useLazyGetCommentsQuery()
+  const {
+    data: comments,
+    isFetching,
+    isError,
+    refetch,
+  } = api.useGetCommentsQuery({ postId, page: page.current })
 
   useEffect(() => {
-    getComments({ postId, page: page.current }, true)
-  }, [postId, getComments, page])
+    refetch()
+  }, [refetch, page])
 
   const toPreviousPage = () =>
     page.previous && setPage({ current: page.previous })
