@@ -61,7 +61,7 @@ const CreatePostView: React.FC<Props> = ({ show, onClose }) => {
     >
       {isTablet && <Header onBack={onClose} />}
       <div className={styles.box}>
-        <PostForm phone={isTablet} onCancel={onClose} onPost={publish} />
+        <PostForm onCancel={onClose} onPost={publish} />
       </div>
     </ReactModal>
   )
