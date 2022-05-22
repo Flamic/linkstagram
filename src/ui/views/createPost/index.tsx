@@ -1,6 +1,5 @@
 import ReactModal from 'react-modal'
 import { useMediaQuery } from 'react-responsive'
-import { toast } from 'react-toastify'
 
 import { TABLET_MEDIA } from 'core/constants/media'
 import { removeFiles, uploadFiles } from 'core/services/uppy'
@@ -45,6 +44,7 @@ const CreatePostView: React.FC<Props> = ({ show, onClose }) => {
       },
       errorMessage: 'Cannot publish post',
       successMessage: 'Post successfully published',
+      onSuccess: onClose,
       onError: () =>
         uploadedPhotos &&
         removeFiles(uploadedPhotos.map((photo) => photo.image.id)),
