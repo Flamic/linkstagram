@@ -1,5 +1,6 @@
 import cn from 'classnames'
 import { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
 
 import { ReactComponent as FollowIcon } from 'assets/images/follow-icon.svg'
 import { ReactComponent as UserIcon } from 'assets/images/user-icon.svg'
@@ -11,6 +12,7 @@ interface Props {
   followable?: boolean
   id?: number | string
   onChoose?: FileCallback
+  redirectTo?: string
   size?: 'small' | 'medium' | 'big' | 'large' | 'xl'
   src?: string | null
 }
@@ -20,6 +22,7 @@ const Avatar: React.FC<Props> = ({
   followable,
   id,
   onChoose,
+  redirectTo,
   size = 'medium',
   src,
 }) => {
@@ -64,6 +67,12 @@ const Avatar: React.FC<Props> = ({
     </div>
   )
 
+  const preparedImage = redirectTo ? (
+    <Link to={redirectTo}>{mainImage}</Link>
+  ) : (
+    mainImage
+  )
+
   return (
     <div>
       {onChoose ? (
@@ -83,7 +92,7 @@ const Avatar: React.FC<Props> = ({
           />
         </label>
       ) : (
-        mainImage
+        preparedImage
       )}
     </div>
   )
