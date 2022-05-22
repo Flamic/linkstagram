@@ -1,13 +1,15 @@
 import { useEffect } from 'react'
 import ReactModal from 'react-modal'
 import { useMediaQuery } from 'react-responsive'
-import { toast } from 'react-toastify'
 
 import { TABLET_MEDIA } from 'core/constants/media'
 import { getUsername, removeAuthData, updateUsername } from 'core/services/auth'
 import { uploadFiles } from 'core/services/uppy'
 import api from 'core/store'
-import { EditAccount } from 'core/types/user'
+import { PhotoAttribute } from 'core/types/image'
+import { RawEditAccount } from 'core/types/user'
+import { tryCatchRequest } from 'core/utils/error'
+import { omitPropery } from 'core/utils/objectConverter'
 import Button from 'ui/components/common/button'
 import Loader from 'ui/components/common/loader'
 import EditProfileForm from 'ui/components/editProfileForm'
@@ -21,22 +23,38 @@ interface Props {
 }
 
 const EditProfileView: React.FC<Props> = ({ show, onClose }) => {
-  const isPhone = useMediaQuery(TABLET_MEDIA)
+  const isTablet = useMediaQuery(TABLET_MEDIA)
   const { data: account, isError: isAccountError } = api.useGetAccountQuery()
-  const [saveProfile] = api.useUpdateAccountMutation()
+  const [saveProfile, { isLoading }] = api.useUpdateAccountMutation()
 
-  const handleSaveProfile = (request: ReturnType<typeof saveProfile>) => {
-    request
-      .unwrap()
-      .then((data) => {
-        toast.success('Profile successfully updated')
+  const save = async (profile: RawEditAccount) => {
+    if (isLoading) return
 
-        if (getUsername() !== data.username) updateUsername(data.username)
-      })
-      .catch((error) => {
-        console.error(error)
-        toast.error('Cannot change profile data')
-      })
+    let uploadedPhoto: PhotoAttribute | undefined
+
+    const ok = await tryCatchRequest({
+      request: async () => {
+        if (profile.photo) [uploadedPhoto] = await uploadFiles([profile.photo])
+      },
+      errorMessage: 'Cannot upload new avatar',
+    })
+
+    if (!ok) return
+
+    await tryCatchRequest({
+      request: async () => {
+        await saveProfile({
+          ...omitPropery(profile, 'photo'),
+          profilePhoto: uploadedPhoto,
+        }).unwrap()
+
+        if (profile.username && getUsername() !== profile.username)
+          updateUsername(profile.username)
+      },
+      errorMessage: 'Cannot change profile data',
+      successMessage: 'Profile successfully updated',
+      onSuccess: onClose,
+    })
   }
 
   useEffect(() => {
@@ -51,9 +69,9 @@ const EditProfileView: React.FC<Props> = ({ show, onClose }) => {
       onRequestClose={onClose}
       className={styles.modal}
     >
-      {isPhone && <Header mode="logOut" />}
+      {isTablet && <Header mode="logOut" />}
       <div className={styles.box}>
-        {isPhone || (
+        {isTablet || (
           <div className={styles.upperBox}>
             <h1>Profile information</h1>
             <Button
@@ -72,38 +90,10 @@ const EditProfileView: React.FC<Props> = ({ show, onClose }) => {
           <Loader />
         ) : (
           <EditProfileForm
-            phone={isPhone}
+            phone={isTablet}
             profile={account}
             onCancel={onClose}
-            onSave={(profile) => {
-              if (profile.photo) {
-                uploadFiles([profile.photo])
-                  .then((photos) =>
-                    handleSaveProfile(
-                      saveProfile({
-                        account: {
-                          ...profile,
-                          photo: undefined,
-                          profilePhoto: photos[0].image,
-                        },
-                      } as EditAccount),
-                    ),
-                  )
-                  .catch((error) => {
-                    console.error(error)
-                    toast.error('Cannot upload new avatar to the storage')
-                  })
-              } else {
-                handleSaveProfile(
-                  saveProfile({
-                    account: {
-                      ...profile,
-                      photo: undefined,
-                    },
-                  } as EditAccount),
-                )
-              }
-            }}
+            onSave={save}
           />
         )}
       </div>

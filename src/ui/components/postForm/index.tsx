@@ -5,11 +5,7 @@ import * as Yup from 'yup'
 
 import { ReactComponent as ImageIcon } from 'assets/images/image-icon.svg'
 import { MAX_POST_IMAGES_COUNT } from 'core/constants/limits'
-import { NewPost } from 'core/types/post'
-import {
-  convertObjectValues,
-  emptyStringToNull,
-} from 'core/utils/objectConverter'
+import { RawNewPost } from 'core/types/post'
 
 import Button from '../common/button'
 import ImageView from '../common/imageView'
@@ -17,25 +13,28 @@ import TextInput from '../common/textInput'
 
 import styles from './styles.module.scss'
 
-type EditNewPost = Omit<NewPost, 'photosAttributes'> & { photos: File[] }
-
 interface Props {
   phone?: boolean
   onCancel?(): void
-  onPost?(post: EditNewPost): void
+  onPost?(post: RawNewPost): void
 }
 
 const PostForm: React.FC<Props> = ({ phone, onCancel, onPost }) => {
-  const formik = useFormik<EditNewPost>({
+  const formik = useFormik<RawNewPost>({
     initialValues: {
       description: '',
       photos: [],
     },
     validationSchema: Yup.object({
-      description: Yup.string().max(100, 'Must be 100 characters or less'),
+      description: Yup.string()
+        .max(100, 'Must be 100 characters or less')
+        .nullable(),
     }),
     onSubmit: (values) => {
-      onPost?.(convertObjectValues(values, emptyStringToNull) as EditNewPost)
+      onPost?.({
+        description: values.description || null,
+        photos: values.photos,
+      })
     },
   })
 

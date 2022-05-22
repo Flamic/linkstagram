@@ -28,7 +28,7 @@ const api = createApi({
     },
     fetchFn,
   }),
-  tagTypes: ['Posts', 'UserPosts', 'Comments', 'Account'],
+  tagTypes: ['Posts', 'UserPosts', 'Comments', 'Account', 'Profile'],
 
   endpoints: (build) => ({
     // Login
@@ -87,11 +87,11 @@ const api = createApi({
       providesTags: (_result, _error, id) => [{ type: 'Posts', id }],
     }),
     addPost: build.mutation<Post, NewPost>({
-      query(body) {
+      query(newPost) {
         return {
           url: 'posts',
           method: 'POST',
-          body,
+          body: { post: newPost },
         }
       },
       invalidatesTags: [
@@ -179,18 +179,34 @@ const api = createApi({
       providesTags: ['Account'],
     }),
     updateAccount: build.mutation<Account, EditAccount>({
-      query(body) {
-        return { url: 'account', method: 'PATCH', body }
+      query(account) {
+        return { url: 'account', method: 'PATCH', body: { account } }
       },
-      invalidatesTags: ['Account'],
+      invalidatesTags: (_result, _error, { username }) => [
+        { type: 'Account' },
+        { type: 'Profile', id: username },
+        { type: 'Profile', id: 'LIST' },
+      ],
     }),
 
     // Profile
     getProfiles: build.query<Profile[], number | undefined>({
       query: (page = 1) => `profiles?page=${page}`,
+      providesTags: (result) =>
+        result
+          ? [
+              ...result.map(
+                ({ username }) => ({ type: 'Profile', id: username } as const),
+              ),
+              { type: 'Profile', id: 'LIST' },
+            ]
+          : [{ type: 'Profile', id: 'LIST' }],
     }),
     getProfile: build.query<Profile, string>({
       query: (username) => `profiles/${username}`,
+      providesTags: (_result, _error, username) => [
+        { type: 'Profile', id: username },
+      ],
     }),
   }),
 })

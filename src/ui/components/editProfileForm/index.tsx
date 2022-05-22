@@ -2,7 +2,7 @@ import cn from 'classnames'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 
-import { Profile } from 'core/types/user'
+import { Profile, RawEditAccount } from 'core/types/user'
 
 import Avatar from '../common/avatar'
 import Button from '../common/button'
@@ -10,16 +10,11 @@ import TextInput from '../common/textInput'
 
 import styles from './styles.module.scss'
 
-type EditProfile = Pick<
-  Profile,
-  'username' | 'firstName' | 'lastName' | 'jobTitle' | 'description'
-> & { photo: File | null }
-
 interface Props {
   phone?: boolean
   profile: Profile
   onCancel?(): void
-  onSave?(profile: EditProfile): void
+  onSave?(profile: RawEditAccount): void
 }
 
 const EditProfileForm: React.FC<Props> = ({
@@ -28,7 +23,7 @@ const EditProfileForm: React.FC<Props> = ({
   onCancel,
   onSave,
 }) => {
-  const formik = useFormik<EditProfile>({
+  const formik = useFormik<RawEditAccount>({
     initialValues: {
       ...profile,
       photo: null,

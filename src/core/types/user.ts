@@ -1,4 +1,4 @@
-import { NewImage } from './image'
+import { PhotoAttribute } from './image'
 
 export interface AuthUser {
   login: string
@@ -24,11 +24,16 @@ export interface Account extends Profile {
   email: string
 }
 
-export interface EditAccount {
-  account: Partial<
+export interface EditAccount
+  extends Partial<
     Pick<
       Profile,
       'description' | 'firstName' | 'lastName' | 'jobTitle' | 'username'
-    > & { profilePhoto: NewImage }
-  >
+    >
+  > {
+  profilePhoto?: PhotoAttribute
+}
+
+export type RawEditAccount = Omit<EditAccount, 'profilePhoto'> & {
+  photo: File | null
 }
