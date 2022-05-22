@@ -2,6 +2,7 @@
 
 .box {
   display: flex;
+  width: 100%;
 
   .button {
     display: flex;
@@ -10,6 +11,7 @@
     font-size: 16px;
     font-weight: 600;
     color: $blue;
+    background-color: transparent;
 
     &.rightButton {
       margin-left: auto;
