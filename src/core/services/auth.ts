@@ -16,35 +16,61 @@ interface Subscriber {
 }
 
 const subscribers: Subscriber[] = []
+let isRequestingUsername = false
+
+const notifySubscribers = (data: AuthData | null) =>
+  subscribers.forEach((subscriber) => subscriber.notify(data))
 
 export const getToken = () => localStorage.getItem(TOKEN_KEY)
 export const getUsername = () => localStorage.getItem(USERNAME_KEY)
 
-export const getAuthData = () => {
+const fetchUsername = (token: string) => {
+  if (isRequestingUsername) return
+
+  isRequestingUsername = true
+  fetch(`${API_LINK}${ACCOUNT_ROUTE}`, {
+    headers: { authorization: `Bearer ${token}` },
+  })
+    .then((response) =>
+      response.json().then((account: Account) => {
+        localStorage.setItem(USERNAME_KEY, account.username)
+        notifySubscribers({
+          token: token as string,
+          username: account.username,
+        })
+      }),
+    )
+    .finally(() => {
+      isRequestingUsername = false
+    })
+}
+
+export const getAuthData = (): AuthData | null => {
   const token = getToken()
   const username = getUsername()
 
-  return token && username ? { token, username } : null
+  if (!token) return null
+
+  if (!username) {
+    fetchUsername(token)
+
+    return null
+  }
+
+  return { token, username }
 }
 
 export const setAuthData = (data: AuthData) => {
   localStorage.setItem(TOKEN_KEY, data.token)
 
-  if (data.username) {
-    localStorage.setItem(USERNAME_KEY, data.username)
-    subscribers.forEach((subscriber) => subscriber.notify(data))
-  } else {
-    fetch(`${API_LINK}${ACCOUNT_ROUTE}`, {
-      headers: { authorization: data.token },
-    }).then((response) =>
-      response.json().then((account: Account) => {
-        localStorage.setItem(USERNAME_KEY, account.username)
-        subscribers.forEach((subscriber) =>
-          subscriber.notify({ ...data, username: account.username }),
-        )
-      }),
-    )
+  if (!data.username) {
+    fetchUsername(data.token)
+
+    return
   }
+
+  localStorage.setItem(USERNAME_KEY, data.username)
+  notifySubscribers(data)
 }
 
 export const updateUsername = (username: string) => {
@@ -53,13 +79,13 @@ export const updateUsername = (username: string) => {
   if (!token) return
 
   localStorage.setItem(USERNAME_KEY, username)
-  subscribers.forEach((subscriber) => subscriber.notify({ token, username }))
+  notifySubscribers({ token, username })
 }
 
 export const removeAuthData = () => {
   localStorage.removeItem(TOKEN_KEY)
   localStorage.removeItem(USERNAME_KEY)
-  subscribers.forEach((subscriber) => subscriber.notify(null))
+  notifySubscribers(null)
 }
 
 export const useAuth = () => {
@@ -69,12 +95,11 @@ export const useAuth = () => {
     const subscriber: Subscriber = {
       notify: (data) => setDataState(data),
     }
-    const { length: index } = subscribers
 
     subscribers.push(subscriber)
 
     return () => {
-      subscribers.splice(index, 1)
+      subscribers.splice(subscribers.indexOf(subscriber), 1)
     }
   }, [])
 
