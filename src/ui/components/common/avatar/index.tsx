@@ -68,7 +68,9 @@ const Avatar: React.FC<Props> = ({
   )
 
   const preparedImage = redirectTo ? (
-    <Link to={redirectTo}>{mainImage}</Link>
+    <Link to={redirectTo} draggable="false">
+      {mainImage}
+    </Link>
   ) : (
     mainImage
   )
