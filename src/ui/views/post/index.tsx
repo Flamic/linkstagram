@@ -1,5 +1,5 @@
 import cn from 'classnames'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import ReactModal from 'react-modal'
 import { useMediaQuery } from 'react-responsive'
 import { toast } from 'react-toastify'
@@ -30,12 +30,17 @@ const PostView: React.FC<Props> = ({ postId, show, onClose }) => {
   const isPhone = useMediaQuery(TABLET_MEDIA)
   const auth = useAuth()
   const [comment, setComment] = useState('')
-  const { data } = api.useGetPostQuery(postId)
+  const [lastPostId, setLastPostId] = useState<number | null>(null)
+  const { data, currentData } = api.useGetPostQuery(postId)
   const [postComment, { isLoading: isLoadingComment }] =
     api.useAddCommentMutation()
   const [like, { isLoading: isLoadingLike }] = api.useLikePostMutation()
   const [unlike, { isLoading: isLoadingUnlike }] = api.useUnlikePostMutation()
   const [remove, { isLoading: isLoadingRemove }] = api.useDeletePostMutation()
+
+  useEffect(() => {
+    if (currentData) setLastPostId(postId)
+  }, [currentData, postId])
 
   const likePost = () => {
     if (
@@ -47,7 +52,7 @@ const PostView: React.FC<Props> = ({ postId, show, onClose }) => {
 
     const action = data.isLiked ? unlike : like
 
-    action(data.id)
+    action(postId)
       .unwrap()
       .catch((error) => {
         console.error(error)
@@ -64,6 +69,7 @@ const PostView: React.FC<Props> = ({ postId, show, onClose }) => {
         console.error(error)
         toast.error('Something went wrong when trying to post comment')
       })
+      .finally(() => setComment(''))
   }
 
   const removePost = () => {
@@ -81,6 +87,34 @@ const PostView: React.FC<Props> = ({ postId, show, onClose }) => {
       })
   }
 
+  const getCommentBox = () => (
+    <form
+      onSubmit={(event) => {
+        event.preventDefault()
+        commentPost()
+      }}
+      className={styles.commentBox}
+    >
+      <TextInput
+        placeholder="Add a comment..."
+        onChange={(event) => setComment(event.target.value)}
+        className={styles.inputBox}
+        inputClassName={styles.input}
+        value={comment}
+      />
+      <Button
+        variant="secondary"
+        onClick={commentPost}
+        className={styles.postButton}
+        type="submit"
+        hoverEffect={false}
+        disabled={!comment}
+      >
+        Post
+      </Button>
+    </form>
+  )
+
   return isPhone ? (
     <ReactModal
       isOpen={Boolean(show)}
@@ -91,7 +125,7 @@ const PostView: React.FC<Props> = ({ postId, show, onClose }) => {
     >
       <Header onBack={onClose} />
       <div className={styles.content}>
-        {!data ? (
+        {!data || lastPostId !== postId ? (
           <div className={styles.loaderBox}>
             <Loader />
           </div>
@@ -105,26 +139,11 @@ const PostView: React.FC<Props> = ({ postId, show, onClose }) => {
               }
             />
             <CommentsView
-              postId={data.id}
+              postId={postId}
               phone
               className={styles.commentsViewBox}
             />
-            <div className={styles.commentBox}>
-              <TextInput
-                placeholder="Add a comment..."
-                multiline
-                onChange={(event) => setComment(event.target.value)}
-                className={styles.inputBox}
-                inputClassName={styles.input}
-              />
-              <Button
-                variant="secondary"
-                onClick={commentPost}
-                className={styles.postButton}
-              >
-                Post
-              </Button>
-            </div>
+            {getCommentBox()}
           </>
         )}
       </div>
@@ -137,7 +156,7 @@ const PostView: React.FC<Props> = ({ postId, show, onClose }) => {
       onRequestClose={onClose}
       className={styles.modal}
     >
-      {!data ? (
+      {!data || lastPostId !== postId ? (
         <div className={styles.loaderBox}>
           <Loader />
         </div>
@@ -145,6 +164,7 @@ const PostView: React.FC<Props> = ({ postId, show, onClose }) => {
         <div className={styles.box}>
           <ImageView
             images={data.photos.slice().reverse()}
+            contain
             className={styles.image}
           />
           <section className={styles.infoSection}>
@@ -162,7 +182,7 @@ const PostView: React.FC<Props> = ({ postId, show, onClose }) => {
                 <i className="icon-cross" />
               </button>
             </div>
-            <CommentsView postId={data.id} className={styles.commentsViewBox} />
+            <CommentsView postId={postId} className={styles.commentsViewBox} />
             <div>
               <Button
                 variant="secondary"
@@ -178,21 +198,7 @@ const PostView: React.FC<Props> = ({ postId, show, onClose }) => {
                 </span>
               </Button>
             </div>
-            <div className={styles.commentBox}>
-              <TextInput
-                placeholder="Add a comment..."
-                onChange={(event) => setComment(event.target.value)}
-                className={styles.inputBox}
-                inputClassName={styles.input}
-              />
-              <Button
-                variant="secondary"
-                onClick={commentPost}
-                className={styles.postButton}
-              >
-                Post
-              </Button>
-            </div>
+            {getCommentBox()}
           </section>
         </div>
       )}

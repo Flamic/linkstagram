@@ -23,7 +23,18 @@
   }
 
   .postButton {
+    min-width: fit-content;
     color: $blue;
+
+    &:hover {
+      color: darken($blue, 10%)
+    }
+
+    &:disabled {
+      background-color: $white;
+      border-color: $white;
+      color: $gray;
+    }
   }
 }
 
@@ -34,6 +45,8 @@
 
   .content {
     padding: 24px 16px;
+    overflow: hidden auto;
+    @include hide-scrollbar;
   }
 }
 
