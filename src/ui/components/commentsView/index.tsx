@@ -2,7 +2,9 @@ import cn from 'classnames'
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 
+import { COMMENTS_COUNT_ON_PAGE } from 'core/constants/limits'
 import api from 'core/store'
+import { Page } from 'core/types/paginator'
 import { getProfileName } from 'core/utils/profile'
 import { humanizeDistanceToNow } from 'core/utils/time'
 
@@ -12,18 +14,11 @@ import Paginator from '../common/paginator'
 
 import styles from './styles.module.scss'
 
-interface Page {
-  current: number
-  previous?: number
-}
-
 interface Props {
   className?: string
   phone?: boolean
   postId: number
 }
-
-const COMMENTS_COUNT_ON_PAGE = 25
 
 const CommentsView: React.FC<Props> = ({ className, phone, postId }) => {
   const [page, setPage] = useState<Page>({ current: 1 })
