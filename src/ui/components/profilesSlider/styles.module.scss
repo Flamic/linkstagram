@@ -13,6 +13,10 @@
   :global(.slick-track) {
     display: flex;
     gap: 24px;
+
+    @include phone-media {
+      gap: 16px;
+    }
   }
 
   .endFilter {

@@ -8,11 +8,13 @@ import Avatar from 'ui/components/common/avatar'
 import styles from './styles.module.scss'
 
 interface Props {
-  profiles: Profile[]
+  profiles?: Profile[]
 }
 
 const ProfilesSlider: React.FC<Props> = ({ profiles }) => {
-  const matchedPhone = useMediaQuery(PHONE_MEDIA)
+  const isPhone = useMediaQuery(PHONE_MEDIA)
+
+  const preparedProfiles = profiles ?? Array<undefined>(10).fill(undefined)
 
   return (
     <div className={styles.box}>
@@ -23,12 +25,13 @@ const ProfilesSlider: React.FC<Props> = ({ profiles }) => {
         infinite={false}
         variableWidth
       >
-        {profiles.map((profile) => (
+        {preparedProfiles.map((profile, index) => (
           <Avatar
-            size={matchedPhone ? 'medium' : 'big'}
-            src={profile.profilePhotoUrl}
+            size={isPhone ? 'medium' : 'big'}
+            src={profile && profile.profilePhotoUrl}
+            key={profile ? profile.username : index}
+            redirectTo={profile && `/profile/${profile.username}`}
             bordered
-            key={profile.username}
           />
         ))}
       </Slider>
