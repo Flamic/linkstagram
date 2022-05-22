@@ -172,6 +172,7 @@ const PostView: React.FC<Props> = ({ postId, show, onClose }) => {
               <Avatar
                 src={data.author.profilePhotoUrl}
                 id={data.author.username}
+                redirectTo={`/profile/${data.author.username}`}
               />
               <div className={styles.name}>{getProfileName(data.author)}</div>
               <button
