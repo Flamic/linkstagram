@@ -1,5 +1,40 @@
 @use '~/src/ui/style/vars' as *;
 
+.input {
+  width: 100%;
+  resize: none;
+  overflow: hidden;
+  margin: 2px 0 0 0;
+  padding: 14px;
+  
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 20px;
+  color: $black;
+  border: 1px solid $gray;
+  border-radius: 12px;
+  outline: none;
+
+  &.withIcon {
+    padding-right: 46px;
+  }
+
+  &:focus {
+    border-color: $dark-gray;
+  }
+
+  &:disabled {
+    color: $gray;
+    background-color: $light-gray;
+    border-color: $gray;
+  }
+
+  &::placeholder {
+    font-weight: 400;
+    color: $gray;
+  }
+}
+
 .label {
   font-weight: 500;
   font-size: 12px;
@@ -8,41 +43,6 @@
 
   .wrapper {
     position: relative;
-
-    .input {
-      width: 100%;
-      resize: none;
-      overflow: none;
-      margin: 2px 0 0 0;
-      padding: 14px;
-      
-      font-weight: 500;
-      font-size: 16px;
-      line-height: 20px;
-      color: $black;
-      border: 1px solid $gray;
-      border-radius: 12px;
-      outline: none;
-
-      &.withIcon {
-        padding-right: 46px;
-      }
-
-      &:focus {
-        border-color: $dark-gray;
-      }
-
-      &:disabled {
-        color: $gray;
-        background-color: $light-gray;
-        border-color: $gray;
-      }
-
-      &::placeholder {
-        font-weight: 400;
-        color: $gray;
-      }
-    }
 
     .passIcon,
     .errorIcon {
