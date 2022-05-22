@@ -50,3 +50,15 @@ export const convertObjectValues = (
     ]),
   )
 }
+
+export const omitPropery = <
+  O extends Record<string, unknown>,
+  K extends string,
+>(
+  obj: O,
+  key: K,
+) =>
+  ({
+    ...obj,
+    [key]: undefined,
+  } as Omit<O, K>)
