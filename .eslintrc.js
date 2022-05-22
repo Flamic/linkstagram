@@ -1,5 +1,6 @@
 module.exports = {
-  extends: ['@linkup/next-js'],
+  parser: '@typescript-eslint/parser',
+  extends: ['react-app', '@linkup/next-js'],
   rules: {
     'react/jsx-props-no-spreading': 'off',
     'import/prefer-default-export': 'off',
