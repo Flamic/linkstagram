@@ -150,7 +150,7 @@ const api = createApi({
       }
     >({
       query: ({ postId, page = 1 }) => `posts/${postId}/comments?page=${page}`,
-      providesTags: (result, _error, postId) =>
+      providesTags: (result, _error, { postId }) =>
         result
           ? [
               ...result.map(({ id }) => ({ type: 'Comments', id } as const)),
