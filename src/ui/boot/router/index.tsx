@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import { Routes, Route, Navigate, HashRouter } from 'react-router-dom'
 
 import { useAuth } from 'core/services/auth'
 import HomePage from 'ui/pages/home'
@@ -10,7 +10,7 @@ const Router: React.FC = () => {
   const auth = useAuth()
 
   return (
-    <BrowserRouter>
+    <HashRouter>
       <Routes>
         <Route
           path="/"
@@ -30,7 +30,7 @@ const Router: React.FC = () => {
         />
         <Route path="/*" element={<Navigate to="/" />} />
       </Routes>
-    </BrowserRouter>
+    </HashRouter>
   )
 }
 

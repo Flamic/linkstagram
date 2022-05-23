@@ -1,7 +1,7 @@
 {
   "name": "linkstagram",
   "version": "0.1.0",
-  "homepage": "http://flamic.github.io/linkstagram",
+  "homepage": "http://flamic.github.io/linkstagram/",
   "private": true,
   "dependencies": {
     "@reduxjs/toolkit": "^1.8.1",
