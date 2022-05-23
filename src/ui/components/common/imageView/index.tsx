@@ -37,6 +37,7 @@ const NextArrow: React.FC<ArrowProps> = ({ direction, hide, onClick }) =>
       })}
       onClick={(event) => {
         event.stopPropagation()
+        event.preventDefault()
         onClick?.()
       }}
     >
