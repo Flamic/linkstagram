@@ -68,35 +68,37 @@ const Avatar: React.FC<Props> = ({
   )
 
   const preparedImage = redirectTo ? (
-    <Link to={redirectTo} draggable="false">
+    <Link
+      to={redirectTo}
+      draggable="false"
+      onDragStart={(event) => {
+        event.preventDefault()
+      }}
+    >
       {mainImage}
     </Link>
   ) : (
     mainImage
   )
 
-  return (
-    <div>
-      {onChoose ? (
-        <label htmlFor="selectAvatar">
-          {mainImage}
-          <input
-            type="file"
-            id="selectAvatar"
-            accept="image/png, image/jpeg"
-            style={{ display: 'none' }}
-            onChange={(event) => {
-              if (event.currentTarget.files?.[0]) {
-                onChoose(event.currentTarget.files[0])
-                setUrl(URL.createObjectURL(event.currentTarget.files[0]))
-              }
-            }}
-          />
-        </label>
-      ) : (
-        preparedImage
-      )}
-    </div>
+  return onChoose ? (
+    <label htmlFor="selectAvatar">
+      {mainImage}
+      <input
+        type="file"
+        id="selectAvatar"
+        accept="image/png, image/jpeg"
+        style={{ display: 'none' }}
+        onChange={(event) => {
+          if (event.currentTarget.files?.[0]) {
+            onChoose(event.currentTarget.files[0])
+            setUrl(URL.createObjectURL(event.currentTarget.files[0]))
+          }
+        }}
+      />
+    </label>
+  ) : (
+    preparedImage
   )
 }
 
