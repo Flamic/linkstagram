@@ -3,9 +3,10 @@ import { useState } from 'react'
 import Slider from 'react-slick'
 
 import { ReactComponent as ImageIcon } from 'assets/images/image-icon.svg'
-import { ReactComponent as Arrow } from 'assets/images/short-arrow-icon.svg'
 import { Image } from 'core/types/image'
 
+import ImageItem from './imageItem'
+import NextArrow from './nextArrow'
 import styles from './styles.module.scss'
 
 interface Props {
@@ -14,59 +15,6 @@ interface Props {
   images: Image[]
   keepAspectRatio?: boolean
   onClick?(): void
-}
-
-interface ArrowProps {
-  direction: 'right' | 'left'
-  hide?: boolean
-  onClick?(): void
-}
-
-interface ImageItemProps {
-  contain?: boolean
-  src: string
-}
-
-const NextArrow: React.FC<ArrowProps> = ({ direction, hide, onClick }) =>
-  hide ? null : (
-    <button
-      type="button"
-      className={cn(styles.arrowButton, {
-        [styles.left]: direction === 'left',
-        [styles.right]: direction === 'right',
-      })}
-      onClick={(event) => {
-        event.stopPropagation()
-        event.preventDefault()
-        onClick?.()
-      }}
-    >
-      <Arrow className={styles.arrow} />
-    </button>
-  )
-
-const ImageItem: React.FC<ImageItemProps> = ({ contain, src }) => {
-  const [loaded, setLoaded] = useState(true)
-
-  return (
-    <>
-      <img
-        src={src}
-        alt="Post"
-        className={cn(styles.img, {
-          [styles.contain]: contain,
-          [styles.invisible]: !loaded,
-        })}
-        onLoad={() => setLoaded(true)}
-        onError={() => setLoaded(false)}
-      />
-      {!loaded && (
-        <div className={styles.defaultImg}>
-          <ImageIcon />
-        </div>
-      )}
-    </>
-  )
 }
 
 const ImageView: React.FC<Props> = ({
