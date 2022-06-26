@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/linkstagram/static/css/main.b0a35cd4.css",
-    "main.js": "/linkstagram/static/js/main.f7148948.js",
+    "main.js": "/linkstagram/static/js/main.8b414a70.js",
     "static/media/log-in-bg.png": "/linkstagram/static/media/log-in-bg.b6854755dc2b559b9133.png",
     "static/media/sign-up-bg.png": "/linkstagram/static/media/sign-up-bg.b60c062be6eb9196a4ad.png",
     "static/media/icomoon.svg?goyks6": "/linkstagram/static/media/icomoon.5a1fda23f02491ff9ba4.svg",
@@ -24,10 +24,10 @@
     "static/media/error-icon.svg": "/linkstagram/static/media/error-icon.e60cc3de694cde499dbda7843d5beb75.svg",
     "static/media/pass-icon.svg": "/linkstagram/static/media/pass-icon.262c0b327e14d76804eefc4cecf4271c.svg",
     "main.b0a35cd4.css.map": "/linkstagram/static/css/main.b0a35cd4.css.map",
-    "main.f7148948.js.map": "/linkstagram/static/js/main.f7148948.js.map"
+    "main.8b414a70.js.map": "/linkstagram/static/js/main.8b414a70.js.map"
   },
   "entrypoints": [
     "static/css/main.b0a35cd4.css",
-    "static/js/main.f7148948.js"
+    "static/js/main.8b414a70.js"
   ]
 }
