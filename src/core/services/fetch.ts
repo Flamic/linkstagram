@@ -13,8 +13,9 @@ const fetchFn = async (input: RequestInfo, init?: RequestInit) => {
     ['POST', 'PUT', 'PATCH'].includes(input.method)
   ) {
     body = JSON.stringify(
-      convertObjectKeys(await input.json(), nameToSnakeCase),
+      convertObjectKeys(await input.clone().json(), nameToSnakeCase),
     )
+
     result = await fetch(new Request(input, { body }), init)
   } else {
     result = await fetch(input, init)
