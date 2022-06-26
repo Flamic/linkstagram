@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react'
 import { useMediaQuery } from 'react-responsive'
 
 import api from 'core/store'
+import { Image } from 'core/types/image'
 import Loader from 'ui/components/common/loader'
 import ImagesGrid from 'ui/components/imagesGrid'
 import ProfileData from 'ui/components/profileData'
@@ -64,10 +65,12 @@ const ProfileView: React.FC<Props> = ({ username }) => {
 
     return (
       <ImagesGrid
-        images={posts.map((post) => ({
-          ...post.photos[0],
-          onClick: () => openPost(post.id),
-        }))}
+        images={posts
+          .filter((post) => post.photos.length > 0)
+          .map((post) => ({
+            ...(post.photos.at(-1) as Image),
+            onClick: () => openPost(post.id),
+          }))}
       />
     )
   }

@@ -132,7 +132,7 @@ const PostView: React.FC<Props> = ({ postId, show, onClose }) => {
         ) : (
           <>
             <PostItemView
-              post={data}
+              post={{ ...data, photos: data.photos.slice().reverse() }}
               onLike={likePost}
               onRemove={
                 auth?.username === data.author.username ? removePost : undefined

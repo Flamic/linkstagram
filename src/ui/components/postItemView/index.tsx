@@ -73,7 +73,7 @@ const PostItemView: React.FC<Props> = ({
       </div>
 
       <ImageView
-        images={post.photos.slice().reverse()}
+        images={post.photos}
         keepAspectRatio
         className={styles.imageView}
         onClick={onViewPost}
